@@ -1,7 +1,7 @@
 <?php
 
 
-namespace wishlist\models;
+namespace wishlist\modele;
 
 
 class Liste extends \Illuminate\Database\Eloquent\Model
@@ -10,8 +10,8 @@ class Liste extends \Illuminate\Database\Eloquent\Model
     protected $primaryKey = 'no';
     public $timestamps = false;
 
+    //retourne item
     public function items(){
         return $this->hasMany('\wishlist\modele\Item', 'liste_id');
     }
-
 }

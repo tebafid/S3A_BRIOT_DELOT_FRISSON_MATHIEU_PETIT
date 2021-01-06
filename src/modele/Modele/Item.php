@@ -1,6 +1,6 @@
 <?php
 
-namespace wishlist\models;
+namespace wishlist\modele;
 
 class Item extends \Illuminate\Database\Eloquent\Model
 {
