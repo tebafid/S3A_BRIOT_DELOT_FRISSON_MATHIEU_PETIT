@@ -15,7 +15,7 @@ class ItemControleur
 
     public function __construct($name)
     {
-        $this->liste=Liste::where('token','=',$name)->first();
+        $this->liste = Liste::where('token','=',$name)->first();
     }
 
     //methode permettant de creer un item
@@ -35,8 +35,9 @@ class ItemControleur
         $item -> liste = $this -> liste -> no;
         $item -> tarif = intval($app -> request -> post('prix'));
         $item -> save();
-        $aff = new Liste();
-        $aff -> afficherListe($this -> liste -> token);
+
+        $aff = new VueListe();
+        $aff -> afficherListe();
     }
 
     public function afficherItem(int $id){
