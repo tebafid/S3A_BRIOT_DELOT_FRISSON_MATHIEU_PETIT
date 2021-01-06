@@ -11,6 +11,9 @@
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/illuminate/collections" />
@@ -71,6 +74,7 @@
       <workItem from="1609767390118" duration="3090000" />
       <workItem from="1609770554364" duration="89000" />
       <workItem from="1609939117530" duration="1067000" />
+      <workItem from="1609940472626" duration="448000" />
     </task>
     <servers />
   </component>
@@ -90,5 +94,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1274" y="455" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1608731165470" />
+    <state x="763" y="428" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1609940543939">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="763" y="428" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/1920.0.1440.860@0.0.1920.1040" timestamp="1609940543939" />
   </component>
 </project>
