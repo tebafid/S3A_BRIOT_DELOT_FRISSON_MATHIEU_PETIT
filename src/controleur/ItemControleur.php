@@ -28,12 +28,10 @@ class ItemControleur
     //methode permettant d'ajouter des item dans la liste
     public function ajouterItem(){
         $app =  \Slim\Slim::getInstance();
-        $nom = $app -> post('titre');
-        $description = $app -> request -> post('descr');
 
         $item = new Item();
-        $item -> nom = filter_var($nom,FILTER_SANITIZE_STRING);
-        $item -> descr = filter_var($description, FILTER_SANITIZE_STRING);
+        $item -> nom = filter_var($app -> post('titre'),FILTER_SANITIZE_STRING);
+        $item -> descr = filter_var($app -> request -> post('descr'), FILTER_SANITIZE_STRING);
         $item -> liste = $this -> liste -> no;
         $item -> tarif = intval($app -> request -> post('prix'));
         $item -> save();
