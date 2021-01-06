@@ -1,7 +1,7 @@
 <?php
 
 
-namespace wishlist\vue;
+namespace projet\Vue;
 
 class Item extends Vue{
 
@@ -13,8 +13,26 @@ class Item extends Vue{
         $this->role-$role;
     }
 
+    private function menuParticipations() : String {
+
+        $url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
+        $url_itemsexpire = $this -> container -> router -> pathFor ( 'afficheritemsexpire' );
+
+        $html = <<<end
+    <div class="vertical-menu">
+    <a class="active">Mes Participations</a>
+    <a href="$url_items">Mes cadeaux à achetés</a>
+    <a href="$url_itemsexpire">Mes cadeaux passées</a>
+    </div>
+end;
+        return $html;
+    }
+    /**
+     * affiche la création de l'item
+     * @return string
+     */
     public static function creerItem(){
-        return <<<ez
+        return <<<end
         <h3>Ajout Cadeau</h3>
         <form method ='post' action = ''>
         <p>Titre : <input type ='text' name ="titre"></p>
@@ -22,9 +40,14 @@ class Item extends Vue{
         <p> Prix : <input ="number" value ="prix"></p>
         <input type ="submit" value ="Ajouter">
         </form>
-        ez;
+        end;
     }
 
+    /**
+     * affiche item sans détail
+     * @return string
+     *
+     */
     public function afficherItem(){
         $app = \Slim\Slim::getInstance();
 
@@ -35,25 +58,32 @@ class Item extends Vue{
             $url = $app->urlFor("voir_item", array("name" => $this->liste->token, "id" => $this->item->id));
         }
 
-        return <<<ez
+        return <<<end
         <div><h4><a href ="$url">{$this->item->nom}</a></h4>
         <p>{$this->item->descrip}</p>
         <p>{$this->item->tarif}</p>
         </div>
-        ez;
+        end;
     }
 
+    /**
+     * L'affichage d'un item présente toutes ses
+     * informations détaillées, son image,
+     * et l'état de la réservation
+     * (nom du participant sans message)
+     * @return string
+     */
     public function afficherItemDetail(){
         $dispo = empty($this->item->acquereur);
         if($dispo){
             if($this->role==OFFREUR){
-                $txt =<<<ez
+                $txt =<<<end
                 <form method = "post" action ="">
                 <p>Votre nom::<input name="acquereur" type=""text"></p>
                 <p>Message: >textarea name="message"></p>
                 <input type=""submit" value="choisir">
                 </form>
-                ez;
+                end;
             }
         }
         else{
@@ -64,21 +94,75 @@ class Item extends Vue{
                 $txt="<p>Cet item a été choisi!</p>";
             }
         }
-        return <<<ez
+        return <<<end
         <div><h3>{$this->item->nom}</h3>
         <p>{$this->item->descriptif}</p>
         <p>{$this->item->tarif}</p>
         $txt
         </div>
-        ez;
+        end;
+    }
+
+    /**
+     * permet d'ajouter un item a la liste
+     * @return string
+     */
+    public function ajouterItem(){
+        $url = $this -> container -> router -> pathFor ( 'ajouteritem', ['tokenModif' => Liste::find($this->tab['no'])->tokenModif, 'no' => $this->tab['no']] );
+        $html = "<h1>Ajouter un item a la liste {$this->tab['titre']}</h1>";
+        $html .= <<<end
+    <form method="POST" action="$url">
+	<label>Nom :<br> <input type="text" name="nom"/></label><br>
+	<label>Description : <br><input type="text" name="descr"/></label><br>
+	<label>Tarif : <br><input type="text" name="tarif"/></label><br>
+	<label>Url (site) : <br><input type="text" name="url"/></label><br>
+	<button class="button" type="submit">Ajouter l'item</button>
+    </form>	
+end;
+        return $html;
+
     }
 
 
-    public function render(){
-        $app = \Slim\Slim::getInstance();
-        $url = $app->urlFor($this->role == OFFREUR ? 'consulter_liste' : 'voir_liste',array('name'=>$this->liste->token));
-        $this->html = $this->afficherItemDetail();
-        $this->menu ="<a href= '$url'>Liste{$this->liste->titre}</a>";
-        return parent::render();
+
+
+
+
+    /**
+     * fonction qui fait le rendu en fonction de l'action de l'utilisateur
+     * @return string
+     */
+    public function render(int $select)
+    {
+        switch ($select) {
+            case 0 :
+            {
+                $content = $this->reserver();
+                break;
+            }
+            case 1:
+            {
+                $content = $this->afficherItem();
+                break;
+            }
+            case 2:
+            {
+                $content = $this->afficherItemDetail();
+                break;
+            }
+
+        }
+        Vue::$inMenu = $this->menuParticipations();
+        Vue::$content = $content;
+
+        return substr(include("html/index.php"), 1, -1);
+
     }
+
+
+
+    //Il manque le non affichage des items
+    // appartenant à aucune liste validée
+    // (par son créateur) ne peut pas être affiché
+
 }
