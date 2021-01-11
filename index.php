@@ -5,6 +5,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 use Illuminate\Database\Capsule\Manager as DB;
 use wishlist\models\Item;
 
+session_start();
+
 $db = new DB();
 $config = parse_ini_file("src/conf/conf.ini");
 if($config) $db->addConnection($config);
@@ -26,18 +28,14 @@ if($id){
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
-$app = new \Slim\App();
-/*
-$app->get('/hello/{name}[/]', function (Request $rq, Response $rs, array $args): Response {
-    $name = $args['name'];
-    $rs->getBody()->write("<h1>hello world, $name</h1>");
-    return $rs;
-});*/
+$conf = ['settings' => [
+    'displayErrorDetails' => true,
+]];
 
-$app->get('/lists', function () {
-    $control = new \wishlist\controleur\Liste();
-    $control->afficherListe();
-});
+$container = new \Slim\Container($conf);
+$app = new \Slim\App($container);
+
+$app->get('/', \wishlist\controleur\MainControleur::class . ':accueil')->setName('accueil');
 
 
 $app->run();
