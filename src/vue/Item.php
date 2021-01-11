@@ -13,20 +13,6 @@ class Item extends Vue{
         $this->role-$role;
     }
 
-    private function menuParticipations() : String {
-
-        $url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
-        $url_itemsexpire = $this -> container -> router -> pathFor ( 'afficheritemsexpire' );
-
-        $html = <<<end
-    <div class="vertical-menu">
-    <a class="active">Mes Participations</a>
-    <a href="$url_items">Mes cadeaux à achetés</a>
-    <a href="$url_itemsexpire">Mes cadeaux passées</a>
-    </div>
-end;
-        return $html;
-    }
     /**
      * affiche la création de l'item
      * @return string
@@ -103,64 +89,18 @@ end;
         end;
     }
 
-    /**
-     * permet d'ajouter un item a la liste
-     * @return string
-     */
-    public function ajouterItem(){
-        $url = $this -> container -> router -> pathFor ( 'ajouteritem', ['tokenModif' => Liste::find($this->tab['no'])->tokenModif, 'no' => $this->tab['no']] );
-        $html = "<h1>Ajouter un item a la liste {$this->tab['titre']}</h1>";
-        $html .= <<<end
-    <form method="POST" action="$url">
-	<label>Nom :<br> <input type="text" name="nom"/></label><br>
-	<label>Description : <br><input type="text" name="descr"/></label><br>
-	<label>Tarif : <br><input type="text" name="tarif"/></label><br>
-	<label>Url (site) : <br><input type="text" name="url"/></label><br>
-	<button class="button" type="submit">Ajouter l'item</button>
-    </form>	
-end;
-        return $html;
-
-    }
-
-
-
-
-
 
     /**
-     * fonction qui fait le rendu en fonction de l'action de l'utilisateur
+     * fonction qui utilise l'affichage des items
      * @return string
      */
-    public function render(int $select)
-    {
-        switch ($select) {
-            case 0 :
-            {
-                $content = $this->reserver();
-                break;
-            }
-            case 1:
-            {
-                $content = $this->afficherItem();
-                break;
-            }
-            case 2:
-            {
-                $content = $this->afficherItemDetail();
-                break;
-            }
-
-        }
-        Vue::$inMenu = $this->menuParticipations();
-        Vue::$content = $content;
-
-        return substr(include("html/index.php"), 1, -1);
-
+    public function render(){
+        $app = \Slim\Slim::getInstance();
+        $url = $app->urlFor($this->role == OFFREUR ? 'consulter_liste' : 'voir_liste',array('name'=>$this->liste->token));
+        $this->html = $this->afficherItemDetail();
+        $this->menu ="<a href= '$url'>Liste{$this->liste->titre}</a>";
+        return parent::render();
     }
-
-
-
     //Il manque le non affichage des items
     // appartenant à aucune liste validée
     // (par son créateur) ne peut pas être affiché

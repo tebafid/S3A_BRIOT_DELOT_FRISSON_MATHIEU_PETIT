@@ -14,6 +14,9 @@ class Liste extends Vue
         $this->liste = $liste;
     }
 
+    /**
+     * affiche la création de la liste
+     */
     public function creerListe(){
         $this->html = <<<fin
         <h3>Commencer une liste de voeux</h3>
@@ -28,6 +31,9 @@ fin;
 
     }
 
+    /**
+     * affiche les listes
+     */
     public function afficherListes(){
         $app = \Slim\Slim::getInstance();
         $this->html = "<h2>Choisir une liste de voeux</h2>";
@@ -35,12 +41,12 @@ fin;
             $url = $app->urlFor('voir_liste', array('name' => $liste->tocken));
             $this->html .= <<<fin
     <div><a href="$url">$liste->titre</a></div>
-fin;
+    fin;
         }
         $url2 = $app->urlFor('nouvelle_liste', array());
         $this->html .= <<<fin
     <a href="$url2">Créer une nouvelle liste</a>
-fin;
+    fin;
     }
 
     public function afficherListeNvItem(){
@@ -48,6 +54,9 @@ fin;
         $this->html .= Item::creerItem();
     }
 
+    /**
+     * affiche une liste
+     */
     public function afficherListe(){
         $app = \Slim\Slim::getInstance();
         $this->html = "<h2>{$this->liste->titre}</h2>";

@@ -1,6 +1,6 @@
 <?php
 
-namespace wishlist\vue;
+namespace projet\Vue;
 
 class Utilisateur
 {
@@ -12,7 +12,7 @@ class Utilisateur
         <p>Mot de passe: <input type="password" name="password"></p>
         <input type="submit" name="i" value=""S'enregistrer">
         </form>
-ez;
+        ez;
     }
 
 }

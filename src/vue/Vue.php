@@ -1,12 +1,12 @@
 <?php
 
 
-namespace wishlist\vue;
+namespace projet\Vue;
 
 
 class Vue
 {
-    protected $role, $titre;
+    private $role, $titre;
 
     public function __construct(int $role){
         $this->role-$role;
@@ -18,7 +18,7 @@ class Vue
         }else{
             $titre ="Participation liste";
         }
-        return <<<ez
+        return <<<end
         <!DOCTYPE html>
         <html lang="fr">
         <head>
@@ -32,7 +32,7 @@ class Vue
         {$this->html}
         </body>
         </html>
-        ez;
+        end;
 
     }
 
