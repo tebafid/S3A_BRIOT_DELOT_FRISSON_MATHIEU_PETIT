@@ -3,21 +3,22 @@
 echo "<div class='in'>";
 
 use wishlist\vue\MainVue;
-
-if(MainVue::getInMenu() != "" ){
+/*
+if(MainVue::getContent() != "<h1> Bienvenue sur my MyWishList </h1>" ){
     echo "<div class='inMenu'>";
-    echo MainVue::getInMenu ();
+    echo MainVue::getContent();
     echo "</div>";
 }else{
     echo "<center>";
-}
+}*/
 
 echo "<div class='content'>";
-echo MainVue::getContent ();
+echo MainVue::getContent();
 echo "</div></div>";
 
-if(MainVue::getInMenu() == "" ){
+/*
+if(MainVue::getContent() == "<h1> Bienvenue sur my MyWishList </h1>" ){
     echo "</center>";
-}
+}*/
 
 ?>

@@ -18,7 +18,7 @@ class MainControleur
 
     public function accueil(Request $rq, Response $rs, $args) : Response {
         $vue = new MainVue($this->container);
-        $rs->getBody()->write($vue->render());
+        $rs->getBody()->write($vue->render(0));
         return $rs;
     }
 }

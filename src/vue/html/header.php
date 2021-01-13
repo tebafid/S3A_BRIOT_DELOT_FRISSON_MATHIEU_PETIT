@@ -22,29 +22,31 @@ End;*/
         <div class="header-right">
 
             <?php
-            /*
-            if (isset( $_SESSION['iduser'] )) {
-                $url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
-                $url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
-                $url_meslistes = $this -> container -> router -> pathFor ( 'affichermeslistes' );
-                $url_comptes = $this -> container -> router -> pathFor ( 'compte', ["login" => User::find($_SESSION['iduser'])->login] );
-                $deco = $this -> container -> router -> pathFor ( 'deconnexion' );
 
+            if (isset( $_SESSION['user'] )) {
+
+                //$url_items = $this -> container -> router -> pathFor ( 'afficheritems' );
+                //$url_listes = $this -> container -> router -> pathFor ( 'afficherlistes' );
+                //$url_meslistes = $this -> container -> router -> pathFor ( 'affichermeslistes' );
+
+                //$url_comptes = $this -> container -> router -> pathFor ( 'compte', ["login" => User::find($_SESSION['iduser'])->login] );
+                $refDeconnexion = $this->container->router->pathFor('deconnexion');
+                /*
                 echo "<a href='$url_listes'>Les listes publiques</a>";
                 echo "<a href='$url_items'>Mes Participations</a>";
-                echo "<a href='$url_meslistes'>Mes listes</a>";
-                echo "<a href='$url_comptes'>Mon Compte</a>";
-                echo "<a class='active' href='$deco'>Deconnexion</a>";
+                echo "<a class='active' href='$url_meslistes'>Mes listes</a>";
+                echo "<a href='$url_comptes'>Mon Compte</a>";*/
+                echo "<a href='$refDeconnexion'>Deconnexion</a>";
 
             } else {
-                $url_creerliste = $this -> container -> router -> pathFor ( 'afficherlistes' );
-                $url_connecter = $this -> container -> router -> pathFor ( 'connexion' );
-                $url_enregistrement = $this -> container -> router -> pathFor ( 'formEnregistrement' );
-                echo "<a href='$url_creerliste'>Les listes</a>";
-                echo "<a class='active' href='$url_connecter'>Se connecter</a>";
-                echo "<a href='$url_enregistrement'>Creer un compte</a>";
+                //$url_creerliste = $this -> container -> router -> pathFor ( 'afficherlistes' );
+                $refConnection = $this->container->router->pathFor('formConnexion');
+                $refCreationCompte = $this->container->router->pathFor('formCreationCompte');
+                //echo "<a href='$url_creerliste'>Les listes</a>";
+                echo "<a class='active' href='$refConnection'>Se connecter</a>";
+                echo "<a href='$refCreationCompte'>S'inscrire</a>";
 
-            }*/
+            }
 
             ?>
 

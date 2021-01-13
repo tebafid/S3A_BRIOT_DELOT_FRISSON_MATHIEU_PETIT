@@ -56,13 +56,15 @@ include ("body.php"); // contenu de la page
 
 
     .button {
+        width: 100%;
         padding: 12px;
         text-decoration: none;
         font-size: 18px;
         line-height: 25px;
         border-radius: 4px;
-        background-color: #1e90ff;
+        background-color: #3E4A60;
         color: white;
+        margin: 8px 0;
     }
 
     .red {
@@ -82,10 +84,16 @@ include ("body.php"); // contenu de la page
     }
 
     .content {
+        margin-left: auto;
+        margin-right: auto;
         padding: 20px;
         padding-bottom: 50px;
-        display: inline-block;
-        width: 75%;
+        width: 50%;
+    }
+
+    .error {
+        color: #ff1e1e;
+        padding-bottom: 10px;
     }
 
 
@@ -167,19 +175,18 @@ include ("body.php"); // contenu de la page
 
     .header {
         overflow: hidden;
-        background-color: #f1f1f1;
-        padding: 10px 10px;
+        background-color: #272F3D;
+        /*padding: 10px 10px;*/
     }
 
     .header a {
         float: left;
-        color: black;
+        color: lightgray;
         text-align: center;
-        padding: 12px;
+        padding: 20px;
         text-decoration: none;
         font-size: 18px;
         line-height: 25px;
-        border-radius: 4px;
     }
 
     .header a.logo {
@@ -188,13 +195,14 @@ include ("body.php"); // contenu de la page
     }
 
     .header a:hover {
-        background-color: #ddd;
-        color: black;
+        /*background-color: #ddd;*/
+        color: white;
     }
 
     .header a.active {
-        background-color: #1e90ff;
-        color: white;
+        background-color: #FFCF0D;
+        color: #272F3D;
+
     }
 
     .header-right {
@@ -211,7 +219,7 @@ include ("body.php"); // contenu de la page
         font-size: 17px;
         border: none;
     }
-
+/*
     @media screen and (max-width: 500px) {
         .header a {
             float: none;
@@ -239,7 +247,7 @@ include ("body.php"); // contenu de la page
             border: 1px solid #ccc;
         }
 
-    }
+    }*/
 
 
 </style>
