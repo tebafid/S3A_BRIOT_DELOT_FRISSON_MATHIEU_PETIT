@@ -3,8 +3,6 @@
 
 namespace wishlist\vue;
 
-use wishlist\vue\MainVue;
-
 class UtilisateurVue extends MainVue
 {
     public function __construct($c){
@@ -44,22 +42,22 @@ END;
         $html = <<<END
 <form method="POST" action="$actionCreation">
     <div>
-        <label id="name" for="nom">Nom : </label>
+        <label>Nom : </label>
         <input type="text" name="nom" required/>
     </div>
     <div>
-        <label for="prenom">Prenom : </label>
+        <label>Prenom : </label>
         <input type="text" name="prenom" required/>
     </div>
     <div>
-        <label for="login">Identifiant : </label>
+        <label>Identifiant : </label>
         <input type="text" name="login" required/>
     </div>
     <div class="error">
         Cet utilisateur existe déjà
     </div>
     <div>
-        <label for="password">Mot de passe : </label>
+        <label>Mot de passe : </label>
         <input type="text" name="password" required/>
     </div>
     <div>

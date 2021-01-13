@@ -5,7 +5,6 @@ namespace wishlist\controleur;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
-use wishlist\vue\MainVue;
 use \wishlist\vue\UtilisateurVue;
 use \wishlist\modele\Utilisateur;
 
@@ -35,8 +34,7 @@ class UtilisateurControleur
         $login = filter_var($post['login'], FILTER_SANITIZE_STRING);
         $password = filter_var($post['password'], FILTER_SANITIZE_STRING);
 
-        $nb = Utilisateur::where('login', '=', $login)->count();
-        if($nb == 0){
+        if(Utilisateur::where('login', '=', $login)->count() == 0){
             $util = new Utilisateur();
             $util->nom = $nom;
             $util->prenom = $prenom;
@@ -55,11 +53,7 @@ class UtilisateurControleur
     public function connexion(Request $rq, Response $rs, $args): Response
     {
         $vue = new UtilisateurVue($this->container);
-        if (isset( $_SESSION['iduser'] )) {
-            $rs->getBody()->write($vue->render(99999)); // utilisateur deja connecter
-        } else {
-            $rs->getBody()->write($vue->render(3)); // form connexion
-        }
+        $rs->getBody()->write($vue->render(3)); // form connexion
         return $rs;
     }
 
@@ -74,10 +68,9 @@ class UtilisateurControleur
         if(Utilisateur::where('login', '=', $login)->count() > 0){
             $util = Utilisateur::where('login', '=', $login)->first();
             if(password_verify($password, $util->password)){ // connecté
-                $_SESSION['user'] = $util->login;
+                $_SESSION['iduser'] = $util->id;
 
-                header('Location: ' . $actionConnexion = $this->container->router->pathFor('accueil'));
-                exit();
+                return $rs->withRedirect($this->container->router->pathFor('accueil'));
             }else{ // mot de passe faux
                 $rs->getBody()->write($vueUtil->render(4));
                 return $rs;
@@ -91,8 +84,8 @@ class UtilisateurControleur
     public function deconnexion(Request $rq, Response $rs, $args): Response
     {
         session_destroy();
-        header('Location: ' . $actionConnexion = $this->container->router->pathFor('accueil'));
-        exit();
+
+        return $rs->withRedirect($this->container->router->pathFor('accueil'));
     }
 
     public function afficherCompte(Request $rq, Response $rs, $args): Response

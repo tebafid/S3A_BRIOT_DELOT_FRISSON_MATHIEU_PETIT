@@ -7,6 +7,7 @@ use wishlist\models\Item;
 
 use wishlist\controleur\MainControleur;
 use wishlist\controleur\UtilisateurControleur;
+use wishlist\controleur\ListeControleur;
 
 session_start();
 
@@ -15,21 +16,6 @@ $config = parse_ini_file("src/conf/conf.ini");
 if($config) $db->addConnection($config);
 $db->setAsGlobal();
 $db->bootEloquent();
-/*
-$items = Item::all();
-
-foreach ($items as $item) echo $item . "<br>";
-
-$id = $_GET['id'];
-
-if($id){
-    echo "<br>l'id est $id<br>";
-    $item = Item::query()->where("id", "=", $id)->get();
-    echo $item;
-}*/
-
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
 
 $conf = ['settings' => [
     'displayErrorDetails' => true,
@@ -47,5 +33,12 @@ $app->get('/formCreationCompte', UtilisateurControleur::class . ':creationCompte
 $app->post('/creationCompte', UtilisateurControleur::class . ':creerCompte')->setName('creationCompte');
 
 $app->get('/deconnexion', UtilisateurControleur::class . ':deconnexion')->setName('deconnexion');
+
+$app->get('/listesPubliques', ListeControleur::class . ':afficherlistesPubliques')->setName('listesPubliques');
+
+$app->get('/liste/{token}', ListeControleur::class . ':afficherListe')->setName('liste');
+
+$app->get('/formCreationListe', ListeControleur::class . ':creationListe')->setName('formCreationListe');
+$app->post('/creationListe', ListeControleur::class . ':creerListe')->setName('creationListe');
 
 $app->run();

@@ -52,9 +52,6 @@ include ("body.php"); // contenu de la page
         box-sizing: border-box;
     }
 
-
-
-
     .button {
         width: 100%;
         padding: 12px;
@@ -62,9 +59,10 @@ include ("body.php"); // contenu de la page
         font-size: 18px;
         line-height: 25px;
         border-radius: 4px;
-        background-color: #3E4A60;
+        background-color: #3e4a60;
         color: white;
         margin: 8px 0;
+        margin-top: 20px;
     }
 
     .red {
@@ -87,8 +85,9 @@ include ("body.php"); // contenu de la page
         margin-left: auto;
         margin-right: auto;
         padding: 20px;
+        padding-top: 100px;
         padding-bottom: 50px;
-        width: 50%;
+        width: 75%;
     }
 
     .error {
@@ -99,35 +98,52 @@ include ("body.php"); // contenu de la page
 
 
     .styled-table {
+
         border-collapse: collapse;
-        margin: 25px 0;
+        margin: 25px auto;
         font-size: 0.9em;
         font-family: sans-serif;
         min-width: 400px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     }
 
     .styled-table thead tr {
-        background-color: #1e90ff;
+        background-color: #3E4A60;
         color: #ffffff;
         text-align: left;
     }
 
-    .styled-table th,
-    .styled-table td {
+    .styled-table th {
         padding: 12px 15px;
+    }
+
+    .styled-table td {
+        padding: 0px;
     }
 
     .styled-table tbody tr {
         border-bottom: 1px solid #dddddd;
+        background-color: #ffffff;
     }
 
     .styled-table tbody tr:nth-of-type(even) {
         background-color: #f3f3f3;
     }
 
+    .styled-table tbody tr:hover {
+        background-color: #e5e5e5;
+    }
+
     .styled-table tbody tr:last-of-type {
-        border-bottom: 2px solid #1e90ff;
+        border-bottom: 2px solid #3e4a60;
+    }
+
+    .styled-table tbody tr td div {
+        border: 10px solid transparent;
+    }
+
+    .styled-table tbody tr td a{
+        text-decoration: none;
+        color: #3E4A60;
     }
 
     .styled-table tbody tr.active-row {
@@ -137,31 +153,29 @@ include ("body.php"); // contenu de la page
 
 
 
-    .vertical-menu {
-        position: absolute;
-        top: 50%;
-        left: 10%;
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
-        width: 200px;
+    .menu {
+        /*position: absolute;*/
+        width: 75%;
     }
 
-    .vertical-menu a {
-        background-color: #eee;
+    .menu a {
+        background-color: #cfcfcf;
         color: black;
-        display: block;
-        padding: 12px;
+        display: inline-block;
+        padding: 12px 25px;
         text-decoration: none;
+        border-radius: 5px;
+        margin-bottom: 10px;
     }
 
-    .vertical-menu a:hover {
-        background-color: #ccc;
+    .menu a:hover {
+        background-color: #3e4a60;
+        color: #e9cb83;
     }
 
-    .vertical-menu a.active {
-        background-color: #1e90ff;
-        color: white;
+    .menu a.active {
+        background-color: #3e4a60;
+        color: #e9cb83;
     }
 
     * {
@@ -171,12 +185,17 @@ include ("body.php"); // contenu de la page
     body {
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
+        background-color: #ececec;
     }
 
     .header {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+
         overflow: hidden;
         background-color: #272F3D;
-        /*padding: 10px 10px;*/
     }
 
     .header a {
@@ -200,7 +219,7 @@ include ("body.php"); // contenu de la page
     }
 
     .header a.active {
-        background-color: #FFCF0D;
+        background-color: #ffcf0d;
         color: #272F3D;
 
     }
