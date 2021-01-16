@@ -3,52 +3,113 @@
 
 namespace wishlist\controleur;
 
-use wishlist\modele\Liste as Liste;
-use wishlist\vue\Liste as VueListe;
-use wishlist\modele\Utilisateur as Uti;
-use wishlist\modele\Item as Item;
-use wishlist\vue\Item as VueItem;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use wishlist\modele\Item;
+use wishlist\modele\Utilisateur;
+use wishlist\modele\Participant;
+use wishlist\modele\Liste;
+use wishlist\vue\ItemVue;
 
 class ItemControleur
 {
-    protected $liste;
+    private $container;
 
-    public function __construct($name)
+    public function __construct($container) {
+        $this->container = $container;
+    }
+
+    public function ajouterItem(Request $rq, Response $rs, $args): Response
     {
-        $this->liste = Liste::where('token','=',$name)->first();
+        $vue = new ItemVue($this->container);
+        $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->where('no', '=', $args['id'])->first();
+        $vue->setData($liste);
+        $rs->getBody()->write($vue->render(2));
+        return $rs;
     }
 
-    //methode permettant de creer un item
-    public function itemCreation(){
-        $aff = new VueListe(DEMANDEUR,$this->liste);
-        $aff->afficherListeNvItem();
-        echo $aff -> render();
-    }
+    public function ajoutItem(Request $rq, Response $rs, $args): Response
+    {
+        if(Liste::all()->where('tokenModif', '=', $args['tokenModif'])->where('no', '=', $args['id'])->count() == 0) return $rs;
 
-    //methode permettant d'ajouter des item dans la liste
-    public function ajouterItem(){
-        $app =  \Slim\Slim::getInstance();
+        $post = $rq->getParsedBody();
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $descr = filter_var($post['descr'], FILTER_SANITIZE_STRING);
+        $tarif = filter_var($post['tarif'], FILTER_SANITIZE_STRING);
+        $url = filter_var($post['url'], FILTER_SANITIZE_STRING);
 
         $item = new Item();
-        $item -> nom = filter_var($app -> post('titre'),FILTER_SANITIZE_STRING);
-        $item -> descr = filter_var($app -> request -> post('descr'), FILTER_SANITIZE_STRING);
-        $item -> liste = $this -> liste -> no;
-        $item -> tarif = intval($app -> request -> post('prix'));
-        $item -> save();
+        $item->liste_id = $args['id'];
+        $item->nom = $nom;
+        $item->descr = $descr;
+        $item->tarif = $tarif;
+        $item->url = $url;
+        $item->save();
 
-        $aff = new VueListe();
-        $aff -> afficherListe();
+        $refListe = $this->container->router->pathFor('liste', ['token' => $args['tokenModif']]);
+        return $rs->withRedirect($refListe);
     }
 
-    public function afficherItem(int $id){
-        $item = Item::where('liste_id','=', $this -> liste -> no) -> where('id','=',$id) -> first();
-        $aff = new VueItem(DEMANDEUR, $this -> liste, $item);
-        echo $aff -> render();
+    public function reservation(Request $rq, Response $rs, $args): Response
+    {
+        $item = Item::all()->where('id', '=', $args['id'])->first();
+        $vue = new ItemVue($this->container);
+
+        if($item->reservation == 1){
+            $rs->getBody()->write($vue->render(1));
+        }else{
+            $vue->setData(['item' => $item, 'token' => $args['token']]);
+            $rs->getBody()->write($vue->render(0));
+        }
+        return $rs;
     }
 
-    //ajout de la reservation d'un item
-    //ajout d'une methode permettant de modifier un item
-    //ajout d'une methode permettant de supprimer modifier un item
-    //methode permettant de rajouter une image a un item
-    //methode permettant de supprimer une image a un item
+    public function reserver(Request $rq, Response $rs, $args): Response
+    {
+        $item = Item::all()->where('id', '=', $args['id'])->first();
+        if($item->reservation == 1){
+            $vue = new ItemVue($this->container);
+            $rs->getBody()->write($vue->render(1));
+            return $rs;
+        }
+
+        $post = $rq->getParsedBody();
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $commentaire = filter_var($post['commentaire'], FILTER_SANITIZE_STRING);
+
+        $participant = new Participant();
+        $participant->item_id = $args['id'];
+        if(isset($_SESSION['iduser'])){
+            $participant->user_id = $_SESSION['iduser'];
+            $participant->nom = Utilisateur::all()->where('id', '=', $_SESSION['iduser'])->first()->nom;
+        }else{
+            $participant->nom = $nom;
+        }
+        $participant->message = $commentaire;
+        $participant->save();
+
+
+        $item->reservation = 1;
+        $item->save();
+
+        $refAffichageListe = $this->container->router->pathFor('liste', ['token' => $args['token']]);
+        return $rs->withRedirect($refAffichageListe);
+    }
+
+    public function supprimerItem(Request $rq, Response $rs, $args): Response{
+        $item = Item::all()->where('id', '=', $args['id'])->first();
+
+        if(Liste::all()->where('no', '=', $item->liste_id)->first()->id == Liste::all()->where('tokenModif', '=', $args['tokenModif']))
+            return $rs;
+
+        if($item->reserve == 1){
+            //$ref = $this->container->router->pathFor('itemreserver'); a finir
+            return $rs;
+        }else{
+            $item->delete();
+            $ref = $this->container->router->pathFor('liste', ['token' => $args['tokenModif']]);
+        }
+        return $rs->withRedirect($ref);
+    }
+
 }

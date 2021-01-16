@@ -5,7 +5,9 @@ namespace wishlist\controleur;
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use wishlist\modele\Item;
 use wishlist\modele\Liste;
+use wishlist\modele\Participant;
 use wishlist\vue\ListeVue;
 
 class ListeControleur
@@ -28,11 +30,17 @@ class ListeControleur
 
     public function afficherliste(Request $rq, Response $rs, $args): Response
     {
-        $liste = Liste::where('token', '=', $args['token'])->first();
-
         $vue = new ListeVue($this->container);
-        $vue->setData($liste);
-        $rs->getBody()->write($vue->render(1));
+        if($liste = Liste::all()->where('token', '=', $args['token'])->count() > 0){
+            $liste = Liste::all()->where('token', '=', $args['token'])->first();
+            $vue->setData($liste);
+            $rs->getBody()->write($vue->render(1));
+        }else if($liste = Liste::all()->where('tokenModif', '=', $args['token'])->count() > 0){
+            $liste = Liste::all()->where('tokenModif', '=', $args['token'])->first();
+            $vue->setData($liste);
+            $rs->getBody()->write($vue->render(5));
+        }
+
         return $rs;
     }
 
@@ -67,7 +75,7 @@ class ListeControleur
             $url = $this->container->router->pathFor('liste', ['token' => $token]);
         }else{
             $user_id = null;
-            $url = 'affichage token modif'; // a finir
+            $url = $this->container->router->pathFor('infoListe', ['tokenModif' => $tokenModif]);
         }
         $liste->user_id = $user_id;
         $liste->save();
@@ -81,5 +89,30 @@ class ListeControleur
             $token = bin2hex(random_bytes(10));
         }
         return $token;
+    }
+
+    public function donneInfoListe(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new ListeVue($this->container);
+        $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
+
+        if($liste != null){
+            $vue->setData($liste);
+            $rs->getBody()->write($vue->render(4));
+        }
+        return $rs;
+    }
+
+    public function supprimerListe(Request $rq, Response $rs, $args): Response{
+        $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
+        $items = Item::all()->where('liste_id', '=', $liste->num);
+        foreach ($items as $item){
+            $part = Participant::all()->where('item_id', '=', $item->id)->first();
+            if($part != null) $part->delete();
+            $item->delete();
+        }
+        $liste->delete();
+        $refMenu = $this->container->router->pathFor('accueil');
+        return $rs->withRedirect($refMenu);
     }
 }

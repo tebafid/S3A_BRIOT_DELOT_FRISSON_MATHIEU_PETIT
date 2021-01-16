@@ -8,6 +8,7 @@ use wishlist\models\Item;
 use wishlist\controleur\MainControleur;
 use wishlist\controleur\UtilisateurControleur;
 use wishlist\controleur\ListeControleur;
+use wishlist\controleur\ItemControleur;
 
 session_start();
 
@@ -40,5 +41,19 @@ $app->get('/liste/{token}', ListeControleur::class . ':afficherListe')->setName(
 
 $app->get('/formCreationListe', ListeControleur::class . ':creationListe')->setName('formCreationListe');
 $app->post('/creationListe', ListeControleur::class . ':creerListe')->setName('creationListe');
+
+$app->get('/infoListe/{tokenModif}', ListeControleur::class . ':donneInfoListe')->setName('infoListe');
+
+$app->get('/supprimerListe/{tokenModif}', ListeControleur::class . ':supprimerListe')->setName('supprimerListe');
+
+$app->get('/formReservation/{token}/{id}', ItemControleur::class . ':reservation')->setName('formReservation');
+$app->post('/reservation/{token}/{id}', ItemControleur::class . ':reserver')->setName('reservation');
+
+$app->get('/formAjoutItem/{tokenModif}/{id}', ItemControleur::class . ':ajouterItem')->setName('formAjoutItem');
+$app->post('/ajoutItem/{tokenModif}/{id}', ItemControleur::class . ':ajoutItem')->setName('ajoutItem');
+
+$app->get('/supprimerItem/{tokenModif}/{id}', ItemControleur::class . ':supprimerItem')->setName('supprimerItem');
+
+
 
 $app->run();
