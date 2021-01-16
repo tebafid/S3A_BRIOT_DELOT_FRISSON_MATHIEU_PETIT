@@ -70,6 +70,13 @@ include ("body.php"); // contenu de la page
         color: white;
     }
 
+    .reservButton {
+        padding: 12px;
+        background-color: #ffcf0d;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
     .important {
         color: #ff1e1e;
     }
@@ -98,7 +105,6 @@ include ("body.php"); // contenu de la page
 
 
     .styled-table {
-
         border-collapse: collapse;
         margin: 25px auto;
         font-size: 0.9em;
@@ -117,7 +123,7 @@ include ("body.php"); // contenu de la page
     }
 
     .styled-table td {
-        padding: 0px;
+        padding: 0;
     }
 
     .styled-table tbody tr {

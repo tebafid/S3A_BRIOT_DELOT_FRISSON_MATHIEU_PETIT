@@ -8,7 +8,9 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use wishlist\modele\Item;
 use wishlist\modele\Liste;
 use wishlist\modele\Participant;
+use wishlist\modele\Commentaire;
 use wishlist\vue\ListeVue;
+use wishlist\vue\UtilisateurVue;
 
 class ListeControleur
 {
@@ -41,6 +43,21 @@ class ListeControleur
             $rs->getBody()->write($vue->render(5));
         }
 
+        return $rs;
+    }
+
+    public function afficherMesListes(Request $rq, Response $rs, $args): Response{
+        if(!isset($_SESSION['iduser'])){
+            $vue = new UtilisateurVue();
+            $rs->getBody()->write($vue->render(3)); // afficher connexion
+            return $rs;
+        }
+
+        $vue = new ListeVue($this->container);
+
+        $listes = Liste::all()->where('user_id', '=', $_SESSION['iduser'])->sortBy('expiration');
+        $vue->setData($listes);
+        $rs->getBody()->write($vue->render(7));
         return $rs;
     }
 
@@ -80,6 +97,10 @@ class ListeControleur
         $liste->user_id = $user_id;
         $liste->save();
 
+        $no = $liste->no;
+        $timeExp = strtotime($liste->expiration);
+        setcookie("listes[$no]", $liste->tokenModif, $timeExp + 60*60*24, '/');
+
         return $rs->withRedirect($url);
     }
 
@@ -103,7 +124,8 @@ class ListeControleur
         return $rs;
     }
 
-    public function supprimerListe(Request $rq, Response $rs, $args): Response{
+    public function supprimerListe(Request $rq, Response $rs, $args): Response
+    {
         $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
         $items = Item::all()->where('liste_id', '=', $liste->num);
         foreach ($items as $item){
@@ -115,4 +137,54 @@ class ListeControleur
         $refMenu = $this->container->router->pathFor('accueil');
         return $rs->withRedirect($refMenu);
     }
+
+    public function modificationListe(Request $rq, Response $rs, $args): Response
+    {
+        $vue = new ListeVue($this->container);
+        $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
+
+        $vue->setData($liste);
+        $rs->getBody()->write($vue->render(6));
+        return $rs;
+    }
+
+    public function modifierListe(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+        $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
+        $liste->titre = filter_var($post['titre'], FILTER_SANITIZE_STRING);
+        $liste->description = filter_var($post['description'], FILTER_SANITIZE_STRING);
+        $liste->expiration = filter_var($post['date'], FILTER_SANITIZE_STRING);
+        $liste->public = filter_var($post['public'], FILTER_SANITIZE_STRING) == 'checked';
+        $liste->save();
+
+        $refListe = $this->container->router->pathFor('liste', ['token' => $liste->tokenModif]);
+        return $rs->withRedirect($refListe);
+    }
+
+    public function ajouterCommentaire(Request $rq, Response $rs, $args): Response
+    {
+        $post = $rq->getParsedBody();
+
+        $commentaire = new Commentaire();
+        if(!isset($_SESSION['iduser'])){
+            setcookie('nom', filter_var($post['nom'], FILTER_SANITIZE_STRING), time() + 60*60*24*7, '/');
+            $commentaire->nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        }else{
+            $commentaire->user_id = $_SESSION['iduser'];
+        }
+        if(Liste::all()->where('token', '=', $args['token'])->count() > 0)
+            $id = Liste::all()->where('token', '=', $args['token'])->first()->no;
+        else
+            $id = Liste::all()->where('tokenModif', '=', $args['token'])->first()->no;
+
+
+        $commentaire->liste_id = $id;
+        $commentaire->message = filter_var($post['message'], FILTER_SANITIZE_STRING);
+        $commentaire->save();
+
+        return $rs->withRedirect($this->container->router->pathFor('liste', ['token' => $args['token']]));
+
+    }
+
 }

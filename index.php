@@ -44,7 +44,14 @@ $app->post('/creationListe', ListeControleur::class . ':creerListe')->setName('c
 
 $app->get('/infoListe/{tokenModif}', ListeControleur::class . ':donneInfoListe')->setName('infoListe');
 
+$app->get('/formModificationListe/{tokenModif}', ListeControleur::class . ':modificationListe')->setName('formModificationListe');
+$app->post('/modificationListe/{tokenModif}', ListeControleur::class . ':modifierListe')->setName('modificationListe');
+
 $app->get('/supprimerListe/{tokenModif}', ListeControleur::class . ':supprimerListe')->setName('supprimerListe');
+
+$app->post('/ajouterCommentaire/{token}', ListeControleur::class . ':ajouterCommentaire')->setName('ajouterCommentaire');
+
+$app->get('/mesListes', ListeControleur::class . ':afficherMesListes')->setName('mesListes');
 
 $app->get('/formReservation/{token}/{id}', ItemControleur::class . ':reservation')->setName('formReservation');
 $app->post('/reservation/{token}/{id}', ItemControleur::class . ':reserver')->setName('reservation');

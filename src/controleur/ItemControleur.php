@@ -35,14 +35,14 @@ class ItemControleur
         $post = $rq->getParsedBody();
         $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
         $descr = filter_var($post['descr'], FILTER_SANITIZE_STRING);
-        $tarif = filter_var($post['tarif'], FILTER_SANITIZE_STRING);
+        $prix = filter_var($post['prix'], FILTER_SANITIZE_STRING);
         $url = filter_var($post['url'], FILTER_SANITIZE_STRING);
 
         $item = new Item();
         $item->liste_id = $args['id'];
         $item->nom = $nom;
         $item->descr = $descr;
-        $item->tarif = $tarif;
+        $item->tarif = $prix;
         $item->url = $url;
         $item->save();
 
@@ -84,9 +84,11 @@ class ItemControleur
             $participant->nom = Utilisateur::all()->where('id', '=', $_SESSION['iduser'])->first()->nom;
         }else{
             $participant->nom = $nom;
+            setcookie('nom', filter_var($post['nom'], FILTER_SANITIZE_STRING), time() + 60*60*24*7, '/');
         }
         $participant->message = $commentaire;
         $participant->save();
+
 
 
         $item->reservation = 1;

@@ -20,7 +20,11 @@ class ItemVue extends MainVue
     private function getHtmlReservation(){
         $refReserver = $this->container->router->pathFor('reservation', ['token' => $this->data['token'], 'id' => $this->data['item']->id]);
         if(!isset($_SESSION['iduser'])){
-            $name = "<label>Nom :</label><input type='text' name='nom' required/>";
+            if(isset($_COOKIE['nom']))
+                $p = $_COOKIE['nom'];
+            else
+                $p = '';
+            $name = "<label>Nom :</label><input type='text' name='nom' value='{$p}' required/>";
         }else{
             $name = "";
         }
@@ -61,8 +65,8 @@ FIN;
 	<input type="text" name="descr"/>
 </div>
 <div>
-	<label>Tarif :</label>
-	<input type="text" name="tarif" required/>
+	<label>Prix :</label>
+	<input type="text" name="prix" required/>
 </div>
 <div>
 	<label>Url :</label>
