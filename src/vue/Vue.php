@@ -12,6 +12,10 @@ class Vue
         $this->role-$role;
     }
 
+    /**
+     * rendu
+     * @return string
+     */
     public function render(){
         if($this->role == DEMANDEUR){
             $titre= "Création liste";

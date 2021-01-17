@@ -17,6 +17,10 @@ class ItemVue extends MainVue
         $this->data = $d;
     }
 
+    /**
+     * affiche la reservation de l'item
+     * @return string
+     */
     private function getHtmlReservation(){
         $refReserver = $this->container->router->pathFor('reservation', ['token' => $this->data['token'], 'id' => $this->data['item']->id]);
         if(!isset($_SESSION['iduser'])){
@@ -46,11 +50,19 @@ FIN;
         return $html;
     }
 
+    /**
+     * affiche item deja reservé
+     * @return string
+     */
     private function getHtmlItemDejaReserve(){
         $html = "Item deja reservé";
         return $html;
     }
 
+    /**
+     * affiche l'ajout d'un item
+     * @return string
+     */
     private function getHtmlAjoutItem(){ //  a revoir
         $refAjout = $this->container->router->pathFor('ajoutItem', ['tokenModif' => Liste::all()->where('no', '=', $this->data->no)->first()->tokenModif, 'id' => $this->data->no] );
         $html = "<h1>Ajout d'un item à la liste {$this->data->titre}</h1>";

@@ -9,6 +9,10 @@ class UtilisateurVue extends MainVue
         $this->container = $c;
     }
 
+    /**
+     * affiche la création de compte
+     * @return string
+     */
     private function getHtmlCreationCompte(){
         $actionCreation = $this->container->router->pathFor('creationCompte');
         $html = <<<END
@@ -37,6 +41,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche la création d'un compte existant
+     * @return string
+     */
     private function getHtmlCreationCompteUtilisateurExistant(){
         $actionCreation = $this->container->router->pathFor('creationCompte');
         $html = <<<END
@@ -68,6 +76,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche la connexion
+     * @return string
+     */
     private function getHtmlConnexion(){
         $actionConnexion = $this->container->router->pathFor('connexion');
         $html = <<<END
@@ -88,6 +100,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche une erreur de connexion : utilisateur inconnu
+     * @return string
+     */
     private function getHtmlErreurConnexion(){
         $html = <<<END
     <div class="error">
@@ -97,6 +113,11 @@ END;
         return $html;
     }
 
+    /**
+     * rendu
+     * @param int $i
+     * @return String
+     */
     public function render(int $i) : String {
         switch ($i){
             case 0: // form de la creation du compte

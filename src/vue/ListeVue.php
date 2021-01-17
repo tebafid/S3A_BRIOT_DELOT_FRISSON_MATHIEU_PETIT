@@ -21,6 +21,10 @@ class ListeVue extends MainVue
         $this->data = $d;
     }
 
+    /**
+     * affiche les listes publiques
+     * @return string
+     */
     private function getHtmlListesPubliques(){
         $html = '';
         if(sizeof($this->data) > 0){
@@ -49,6 +53,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche listes utilisateur
+     * @return string
+     */
     private function getHtmlMesListe(){
         $html = '';
         if(sizeof($this->data) > 0){
@@ -77,6 +85,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche l'ensemble des listes
+     * @return string
+     */
     private function getHtmlListe(){
         $lienActuel = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $urlDePartage = str_replace($this->data->tokenModif , $this->data->token, $lienActuel);
@@ -158,6 +170,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche le menu des listes publiques
+     * @return string
+     */
     private function getHtmlMenuListesPubliques(){
         $refCreationListe = $this->container->router->pathFor('formCreationListe');
         $html = <<<END
@@ -172,6 +188,10 @@ END;
 
     }
 
+    /**
+     * affiche la création de liste
+     * @return string
+     */
     private function getHtmlCreationListe(){
         $date = date('Y-m-d');
         $refNouvelleListe = $this->container->router->pathFor('creationListe');
@@ -204,6 +224,10 @@ FIN;
 
     }
 
+    /**
+     * affiche l'information sur la liste
+     * @return string
+     */
     private function getHtmlInfoListe(){
         $refListeModif = $this->container->router->pathFor('liste', ['token' => $this->data->tokenModif]);
 
@@ -235,6 +259,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche la modification de liste
+     * @return string
+     */
     private function getHtmlListeModif(){
         $lienActuel = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $urlDePartage = str_replace($this->data->tokenModif , $this->data->token, $lienActuel);
@@ -334,6 +362,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche la midification de liste
+     * @return string
+     */
     private function getHtmlModificationListe(){
         $refModif = $this->container->router->pathFor('modificationListe', ['tokenModif' => $this->data->tokenModif]);
 
@@ -371,6 +403,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche l'ajout de commentaire
+     * @return string
+     */
     private function getHtmlAjoutCommentaire(){
         $refAjout = $this->container->router->pathFor('ajouterCommentaire', ['token' => $this->data->token]);
         if(isset($_SESSION['iduser'])){
@@ -395,6 +431,10 @@ END;
         return $html;
     }
 
+    /**
+     * affiche les commentaires
+     * @return string
+     */
     private function getHtmlCommentaire(){
         $commentaires = Commentaire::all()->where('liste_id', '=', $this->data->no);
         $html = "<hr>";

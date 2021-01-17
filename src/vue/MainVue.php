@@ -13,6 +13,11 @@ class MainVue
         $this->container = $c;
     }
 
+    /**
+     * rendu vue
+     * @param int $i
+     * @return String
+     */
     public function render(int $i) : String {
         $html = "<h1> Bienvenue sur my MyWishList </h1>";
 
