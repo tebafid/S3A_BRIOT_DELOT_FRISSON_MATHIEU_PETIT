@@ -25,7 +25,7 @@ class MainVue
         return substr(include ("html/index.php"), 0,-1);
     }
 
-    public function getContent(): String {
+    public static function getContent(): String {
         return MainVue::$content;
     }
 }

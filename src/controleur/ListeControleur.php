@@ -69,7 +69,7 @@ class ListeControleur
      */
     public function afficherMesListes(Request $rq, Response $rs, $args): Response{
         if(!isset($_SESSION['iduser'])){
-            $vue = new UtilisateurVue();
+            $vue = new UtilisateurVue($this->container);
             $rs->getBody()->write($vue->render(3)); // afficher connexion
             return $rs;
         }
@@ -77,6 +77,50 @@ class ListeControleur
         $vue = new ListeVue($this->container);
 
         $listes = Liste::all()->where('user_id', '=', $_SESSION['iduser'])->sortBy('expiration');
+        $vue->setData($listes);
+        $rs->getBody()->write($vue->render(7));
+        return $rs;
+    }
+
+    /**
+     * utilise la vue pour afficher les listes de l'utilisateur
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function afficherMesListesNonExpire(Request $rq, Response $rs, $args): Response{
+        if(!isset($_SESSION['iduser'])){
+            $vue = new UtilisateurVue($this->container);
+            $rs->getBody()->write($vue->render(3)); // afficher connexion
+            return $rs;
+        }
+
+        $vue = new ListeVue($this->container);
+
+        $listes = Liste::all()->where('user_id', '=', $_SESSION['iduser'])->where('expiration', '>=', date("Y-m-d"))->sortBy('expiration');
+        $vue->setData($listes);
+        $rs->getBody()->write($vue->render(7));
+        return $rs;
+    }
+
+    /**
+     * utilise la vue pour afficher les listes de l'utilisateur
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
+    public function afficherMesListesExpire(Request $rq, Response $rs, $args): Response{
+        if(!isset($_SESSION['iduser'])){
+            $vue = new UtilisateurVue($this->container);
+            $rs->getBody()->write($vue->render(3)); // afficher connexion
+            return $rs;
+        }
+
+        $vue = new ListeVue($this->container);
+
+        $listes = Liste::all()->where('user_id', '=', $_SESSION['iduser'])->where('expiration', '<', date("Y-m-d"))->sortBy('expiration');
         $vue->setData($listes);
         $rs->getBody()->write($vue->render(7));
         return $rs;

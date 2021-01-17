@@ -102,7 +102,7 @@ END;
     <th>Item</th>
     <th>Description</th>
     <th>Url</th>
-    <th>Tarif</th>
+    <th>Prix</th>
     <th>Etat de reservation</th>
 </tr>
 </thead><tbody>
@@ -111,9 +111,9 @@ END;
         if (count($items) != 0) {
             foreach ($items as $item) {
                 if (file_exists ( "../uploads/{$item->img}" )) {
-                    $img = "../uploads/{$item->img}";
+                    $img = "../../web/img/{$item->img}";
                 } else {
-                    $img = "../uploads/base.png";
+                    $img = "../../web/img/base-img.png";
                 }
                 if ($item->reservation == 0) {
                     if(isset($_COOKIE['listes']) && isset($_COOKIE['listes'][$this->data->no])){
@@ -143,10 +143,10 @@ END;
                 $html .= <<<END
 <tr>
 <td><div style='height:80px; width: 80px;'><img style='height:100%; width: 100%;' src='$img'></div></td>
-<td><div>{$item['nom']}</div></td> 
-<td><div>{$item['descr']}</div></td>
-<td><div>{$item['url']}</div></td>
-<td><div>{$item['tarif']}</div></td>
+<td><div>{$item->nom}</div></td> 
+<td><div>{$item->descr}</div></td>
+<td><div>{$item->url}</div></td>
+<td><div>{$item->tarif}</div></td>
 <td><div>{$reserv}</div></td>
 </tr>
 END;
@@ -163,9 +163,7 @@ END;
 </tr>
 END;
         }
-        $html .= "</tbody></table>";/*
-        $html .= $this -> ajouterCommentaire ();
-        $html .= $this -> affichageCommentaire ();*/
+        $html .= "</tbody></table>";
 
         return $html;
     }
@@ -178,9 +176,8 @@ END;
         $refCreationListe = $this->container->router->pathFor('formCreationListe');
         $html = <<<END
 <div class="menu">
-  <a class="active">Les listes publiques</a>
-  <a href="">Les listes en cours</a>
-  <a href="">Les listes expirées</a>
+  <a class="active">Listes publiques</a>
+  <a href="">Listes expirées</a>
   <a href="$refCreationListe">Créer une liste</a>
 </div>
 END;
@@ -192,12 +189,28 @@ END;
      * @return string
      */
     private function getHtmlMenuListesUtilisateur(){
+        $refMesListe = $this->container->router->pathFor('mesListes');
         $refCreationListe = $this->container->router->pathFor('formCreationListe');
-        $html = <<<END
+        $refListeEnCours = $this->container->router->pathFor('mesListesNonExpire');
+        $refListeExpire = $this->container->router->pathFor('mesListesExpire');
+
+        $param1 = "href='$refMesListe'";
+        $param2 = "href='$refListeEnCours'";
+        $param3 = "href='$refListeExpire'";
+
+        if(str_contains($_SERVER['REQUEST_URI'], 'mesListesNonExpire')){
+            $param2 .= "class='active'";
+        }else if(str_contains($_SERVER['REQUEST_URI'], 'mesListesExpire')){
+            $param3 .= "class='active'";
+        }else if(str_contains($_SERVER['REQUEST_URI'], 'mesListes')){
+            $param1 .= "class='active'";
+        }
+
+            $html = <<<END
 <div class="menu">
-  <a class="active">Mes listes</a>
-  <a href="">Listes en cours</a>
-  <a href="">Listes expirées</a>
+  <a $param1>Mes listes</a>
+  <a $param2>Listes en cours</a>
+  <a $param3>Listes expirées</a>
   <a href="$refCreationListe">Créer une liste</a>
 </div>
 END;
@@ -276,7 +289,7 @@ END;
     }
 
     /**
-     * affiche la modification de liste
+     * affiche la liste modifiable
      * @return string
      */
     private function getHtmlListeModif(){
@@ -293,9 +306,9 @@ END;
     <th>Item</th>
     <th>Description</th>
     <th>Url</th>
-    <th>Tarif</th>
+    <th>Prix</th>
     <th>Etat de reservation</th>
-    <th>Action</th>
+    <th>Actions</th>
 </tr>
 </thead><tbody>
 END;
@@ -306,9 +319,9 @@ END;
                 $refSupprItem = $this->container->router->pathFor('supprimerItem', ['tokenModif' => $this->data->tokenModif, 'id' => $item->id]);
 
                 if(file_exists("../uploads/{$item->img}")) {
-                    $img = "../uploads/{$item->img}";
+                    $img = "../../web/img/{$item->img}";
                 } else {
-                    $img = "../uploads/base.png";
+                    $img = "../../web/img/base-img.png";
                 }
                 if ($item->reservation == 0) {
                     if(isset($_COOKIE['listes']) && isset($_COOKIE['listes'][$this->data->no])){
@@ -339,15 +352,18 @@ END;
                 $html .= <<<END
 <tr>
 <td><div style='height:80px; width: 80px;'><img style='height:100%; width: 100%;' src='$img'></div></td>
-<td><div>{$item['nom']}</div></td> 
-<td><div>{$item['descr']}</div></td>
-<td><div>{$item['url']}</div></td>
-<td><div>{$item['tarif']}</div></td>
+<td><div>{$item->nom}</div></td> 
+<td><div>{$item->descr}</div></td>
+<td><div>{$item->url}</div></td>
+<td><div>{$item->tarif}</div></td>
 <td><div>{$reserv}</div></td>
-<td><a href='$refSupprItem'><i class='fa fa-trash'></i></a></td>
+<td style="text-align: center">
+    <div style="display: inline-block"><a href=''><i class='fa fa-edit'></i></a></div>
+    <div style="display: inline-block"><a href='$refSupprItem'><i class='fa fa-trash'></i></a></div>
+</td>
 </tr>
 END;
-            }//<td><a href='$url_modif'><i class='fa fa-edit'></i></a>
+            }
         } else {
             $html .= <<<END
 <tr>
@@ -367,19 +383,23 @@ END;
             $refModifListe = $this->container->router->pathFor('formModificationListe', ['tokenModif' => $this->data->tokenModif]);
             $refSupprListe = $this->container->router->pathFor('supprimerListe', ['tokenModif' => $this->data->tokenModif]);
 
-            $html .= "<a class='button' href='$refAjoutItem'>Ajouter un item</a>
-                      <a class='button' href='$refModifListe'>Modifier la liste</a>
-                      <a class='button red' href='$refSupprListe'>Supprimer la liste</a>";
+            $html .= <<<END
+<div style="margin-bottom: 20px">
+    <a class='button' href='$refAjoutItem'>Ajouter un item</a>
+    <a class='button' href='$refModifListe'>Modifier la liste</a>
+    <a class='button rouge' href='$refSupprListe'>Supprimer la liste</a>
+</div>
+END;
         }else {
             $refSupprListe = $this->container->router->pathFor('supprimerListe', ['tokenModif' => $this->data->tokenModif]);
-            $html .= "<a class='button' href='$refSupprListe'>Supprimer la liste</a>";
+            $html .= "<div><a class='button' href='$refSupprListe'>Supprimer la liste</a></div>";
         }
 
         return $html;
     }
 
     /**
-     * affiche la midification de liste
+     * affiche la modification de liste
      * @return string
      */
     private function getHtmlModificationListe(){

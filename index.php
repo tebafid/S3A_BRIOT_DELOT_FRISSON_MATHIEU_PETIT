@@ -52,6 +52,8 @@ $app->get('/supprimerListe/{tokenModif}', ListeControleur::class . ':supprimerLi
 $app->post('/ajouterCommentaire/{token}', ListeControleur::class . ':ajouterCommentaire')->setName('ajouterCommentaire');
 
 $app->get('/mesListes', ListeControleur::class . ':afficherMesListes')->setName('mesListes');
+$app->get('/mesListesNonExpire', ListeControleur::class . ':afficherMesListesNonExpire')->setName('mesListesNonExpire');
+$app->get('/mesListesExpire', ListeControleur::class . ':afficherMesListesExpire')->setName('mesListesExpire');
 
 $app->get('/formReservation/{token}/{id}', ItemControleur::class . ':reservation')->setName('formReservation');
 $app->post('/reservation/{token}/{id}', ItemControleur::class . ':reserver')->setName('reservation');

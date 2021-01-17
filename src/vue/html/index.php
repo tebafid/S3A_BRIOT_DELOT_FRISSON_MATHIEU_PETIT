@@ -22,7 +22,7 @@ include ("body.php"); // contenu de la page
 </html>
 <style>
 
-    input[type=text] {
+    input[type=text], input[type=password], input[type=date] {
         width: 100%;
         padding: 12px 20px;
         margin: 8px 0;
@@ -32,25 +32,7 @@ include ("body.php"); // contenu de la page
         box-sizing: border-box;
     }
 
-    input[type=password] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
 
-    input[type=date] {
-        width: 100%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        display: inline-block;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-    }
 
     .button {
         width: 100%;
@@ -65,9 +47,8 @@ include ("body.php"); // contenu de la page
         margin-top: 20px;
     }
 
-    .red {
-        background-color: #ff1e1e;
-        color: white;
+    .rouge{
+        background-color: #b53434;
     }
 
     .reservButton {
@@ -75,17 +56,6 @@ include ("body.php"); // contenu de la page
         background-color: #ffcf0d;
         text-decoration: none;
         font-size: 18px;
-    }
-
-    .important {
-        color: #ff1e1e;
-    }
-
-
-
-    .inMenu {
-        display: inline-block;
-        width: 25%;
     }
 
     .content {
@@ -101,8 +71,6 @@ include ("body.php"); // contenu de la page
         color: #ff1e1e;
         padding-bottom: 10px;
     }
-
-
 
     .styled-table {
         border-collapse: collapse;
@@ -219,59 +187,16 @@ include ("body.php"); // contenu de la page
     }
 
     .header a:hover {
-        /*background-color: #ddd;*/
         color: white;
     }
 
     .header a.active {
         background-color: #ffcf0d;
         color: #272F3D;
-
     }
 
     .header-right {
         float: right;
     }
-
-    .header .search-container {
-        float: left;
-    }
-
-    .header input[type=text] {
-        padding: 6px;
-        margin-top: 8px;
-        font-size: 17px;
-        border: none;
-    }
-/*
-    @media screen and (max-width: 500px) {
-        .header a {
-            float: none;
-            display: block;
-            text-align: left;
-        }
-
-        .header-right {
-            float: none;
-        }
-
-        .header .search-container {
-            float: none;
-        }
-        .header a, .topnav input[type=text], .header .search-container button {
-            float: none;
-            display: block;
-            text-align: left;
-            width: 100%;
-            margin: 0;
-            padding: 14px;
-        }
-
-        .header input[type=text] {
-            border: 1px solid #ccc;
-        }
-
-    }*/
-
 
 </style>

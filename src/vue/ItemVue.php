@@ -63,7 +63,7 @@ FIN;
      * affiche l'ajout d'un item
      * @return string
      */
-    private function getHtmlAjoutItem(){ //  a revoir
+    private function getHtmlAjoutItem(){
         $refAjout = $this->container->router->pathFor('ajoutItem', ['tokenModif' => Liste::all()->where('no', '=', $this->data->no)->first()->tokenModif, 'id' => $this->data->no] );
         $html = "<h1>Ajout d'un item à la liste {$this->data->titre}</h1>";
         $html .= <<<END
@@ -77,12 +77,12 @@ FIN;
 	<input type="text" name="descr"/>
 </div>
 <div>
-	<label>Prix :</label>
-	<input type="text" name="prix" required/>
-</div>
-<div>
 	<label>Url :</label>
 	<input type="text" name="url"/>
+</div>
+<div>
+	<label>Prix :</label>
+	<input type="text" name="prix" required/>
 </div>
 <div>
 	<button class="button" type="submit">Ajouter</button>
