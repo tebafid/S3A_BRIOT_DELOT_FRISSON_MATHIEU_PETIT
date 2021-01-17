@@ -2,9 +2,6 @@
 <head>
     <div class="header">
         <?php
-
-        use mywishlist\models\User;
-
         $url_accueil = $this -> container -> router -> pathFor ( 'accueil' );
 
         echo "<a href='$url_accueil' class='logo'>MyWishList</a>";

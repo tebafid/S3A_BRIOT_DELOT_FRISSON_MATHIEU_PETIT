@@ -160,7 +160,6 @@ include ("body.php"); // contenu de la page
 
 
     .menu {
-        /*position: absolute;*/
         width: 75%;
     }
 

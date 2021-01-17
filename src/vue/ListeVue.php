@@ -185,7 +185,23 @@ END;
 </div>
 END;
         return $html;
+    }
 
+    /**
+     * affiche le menu des listes pour un utilisateur connecté
+     * @return string
+     */
+    private function getHtmlMenuListesUtilisateur(){
+        $refCreationListe = $this->container->router->pathFor('formCreationListe');
+        $html = <<<END
+<div class="menu">
+  <a class="active">Mes listes</a>
+  <a href="">Listes en cours</a>
+  <a href="">Listes expirées</a>
+  <a href="$refCreationListe">Créer une liste</a>
+</div>
+END;
+        return $html;
     }
 
     /**
@@ -481,7 +497,7 @@ END;
                 MainVue::$content = $this->getHtmlModificationListe();
                 break;
             case 7: // affichage des listes de l'utilisateur
-                MainVue::$content = $this->getHtmlMesListe();
+                MainVue::$content = $this->getHtmlMenuListesUtilisateur() . $this->getHtmlMesListe();
                 break;
         }
 
