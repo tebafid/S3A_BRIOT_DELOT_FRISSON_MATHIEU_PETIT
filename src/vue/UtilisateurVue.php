@@ -31,7 +31,7 @@ class UtilisateurVue extends MainVue
     </div>
     <div>
         <label for="password">Mot de passe : </label>
-        <input type="text" name="password" required/>
+        <input type="password" name="password" required/>
     </div>
     <div>
 	    <button class="button" type="submit">S'inscrire</button>
@@ -66,7 +66,7 @@ END;
     </div>
     <div>
         <label>Mot de passe : </label>
-        <input type="text" name="password" required/>
+        <input type="password" name="password" required/>
     </div>
     <div>
 	    <button id="button" class="button" type="submit">S'inscrire</button>
@@ -90,7 +90,7 @@ END;
     </div>
     <div>
         <label for="password">Mot de passe : </label>
-        <input type="text" name="password" required/>
+        <input type="password" name="password" required/>
     </div>
     <div>
 	    <button id="button" class="button" type="submit">Se connecter</button>

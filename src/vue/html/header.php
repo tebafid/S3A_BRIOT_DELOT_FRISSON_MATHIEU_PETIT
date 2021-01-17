@@ -8,16 +8,6 @@
         $url_accueil = $this -> container -> router -> pathFor ( 'accueil' );
 
         echo "<a href='$url_accueil' class='logo'>MyWishList</a>";
-
-        //$url_rechercher = $this -> container -> router -> pathFor ( 'rechercher' );
-/*        echo <<<End
-<div class="search-container">
-    <form method="POST" action="$url_rechercher" style="margin-left: 2%">
-	    <input type="text" name="token" placeholder="Entrer une clé de partage" required/></label>
-    </form>	
-</div>
-End;*/
-
         ?>
         <div class="header-right">
 
