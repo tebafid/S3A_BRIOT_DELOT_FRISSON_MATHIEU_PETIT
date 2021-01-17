@@ -16,6 +16,12 @@ class MainControleur
         $this->container = $container;
     }
 
+    /** accueil
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function accueil(Request $rq, Response $rs, $args) : Response {
         $vue = new MainVue($this->container);
         $rs->getBody()->write($vue->render(0));

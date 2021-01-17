@@ -19,6 +19,13 @@ class ItemControleur
         $this->container = $container;
     }
 
+    /**
+     * ajoute un item a une liste : endroit pour entrer les infos
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function ajouterItem(Request $rq, Response $rs, $args): Response
     {
         $vue = new ItemVue($this->container);
@@ -28,6 +35,13 @@ class ItemControleur
         return $rs;
     }
 
+    /**
+     * ajoute un item a une liste a partir des infos
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function ajoutItem(Request $rq, Response $rs, $args): Response
     {
         if(Liste::all()->where('tokenModif', '=', $args['tokenModif'])->where('no', '=', $args['id'])->count() == 0) return $rs;
@@ -50,6 +64,13 @@ class ItemControleur
         return $rs->withRedirect($refListe);
     }
 
+    /**
+     * reservation : endroit pour écrire les informations
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function reservation(Request $rq, Response $rs, $args): Response
     {
         $item = Item::all()->where('id', '=', $args['id'])->first();
@@ -64,6 +85,13 @@ class ItemControleur
         return $rs;
     }
 
+    /**
+     * reserve a partir des informations
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function reserver(Request $rq, Response $rs, $args): Response
     {
         $item = Item::all()->where('id', '=', $args['id'])->first();
@@ -98,6 +126,13 @@ class ItemControleur
         return $rs->withRedirect($refAffichageListe);
     }
 
+    /**
+     * supprime un item d'une liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function supprimerItem(Request $rq, Response $rs, $args): Response{
         $item = Item::all()->where('id', '=', $args['id'])->first();
 

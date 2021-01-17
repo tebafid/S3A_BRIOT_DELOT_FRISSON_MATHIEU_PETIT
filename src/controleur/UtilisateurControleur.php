@@ -17,6 +17,13 @@ class UtilisateurControleur
         $this -> container = $container;
     }
 
+    /**
+     * création d'un compte : affiche les endroits pour écrire
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function creationCompte(Request $rq, Response $rs, $args): Response
     {
         $vue = new UtilisateurVue($this->container);
@@ -24,6 +31,14 @@ class UtilisateurControleur
         return $rs;
     }
 
+
+    /**
+     * création d'un compte: prend les information et crée le compte
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function creerCompte(Request $rq, Response $rs, $args): Response
     {
         $vue = new UtilisateurVue($this->container);
@@ -50,6 +65,12 @@ class UtilisateurControleur
         }
     }
 
+    /** se connecte au compte : affiche les endroits pour se connecter
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function connexion(Request $rq, Response $rs, $args): Response
     {
         $vue = new UtilisateurVue($this->container);
@@ -57,6 +78,13 @@ class UtilisateurControleur
         return $rs;
     }
 
+    /**
+     * se connecte au compte avec les informations entré
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function seConnecter(Request $rq, Response $rs, $args): Response
     {
         $vueUtil = new UtilisateurVue($this->container);
@@ -81,6 +109,13 @@ class UtilisateurControleur
         }
     }
 
+    /**
+     * se deconnecte
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function deconnexion(Request $rq, Response $rs, $args): Response
     {
         session_destroy();
@@ -88,6 +123,13 @@ class UtilisateurControleur
         return $rs->withRedirect($this->container->router->pathFor('accueil'));
     }
 
+    /**
+     * affiche le compte
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function afficherCompte(Request $rq, Response $rs, $args): Response
     {
 

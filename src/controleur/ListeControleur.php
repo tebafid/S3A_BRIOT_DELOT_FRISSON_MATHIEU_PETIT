@@ -20,6 +20,13 @@ class ListeControleur
         $this->container = $container;
     }
 
+    /**
+     * utilise la vue pour afficher les listes publique
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function afficherlistesPubliques(Request $rq, Response $rs, $args): Response
     {
         $vue = new ListeVue($this->container);
@@ -30,6 +37,13 @@ class ListeControleur
         return $rs;
     }
 
+    /**
+     * utilise la vue pour afficher les listes
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function afficherliste(Request $rq, Response $rs, $args): Response
     {
         $vue = new ListeVue($this->container);
@@ -46,6 +60,13 @@ class ListeControleur
         return $rs;
     }
 
+    /**
+     * utilise la vue pour afficher les listes de l'utilisateur
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function afficherMesListes(Request $rq, Response $rs, $args): Response{
         if(!isset($_SESSION['iduser'])){
             $vue = new UtilisateurVue();
@@ -61,6 +82,13 @@ class ListeControleur
         return $rs;
     }
 
+    /**
+     * utilise la vue pour afficher la création de liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function creationListe(Request $rq, Response $rs, $args): Response
     {
         $vue = new ListeVue($this->container);
@@ -69,6 +97,13 @@ class ListeControleur
         return $rs;
     }
 
+    /**
+     * utilise la vue pour créer la liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function creerListe(Request $rq, Response $rs, $args): Response
     {
         $post = $rq->getParsedBody();
@@ -104,6 +139,11 @@ class ListeControleur
         return $rs->withRedirect($url);
     }
 
+    /**
+     * crée un token : id de la liste
+     * @return string
+     * @throws \Exception
+     */
     private function creerToken(){
         $token = bin2hex(random_bytes(10));
         while(Liste::all()->where('token', '=', $token)->count() > 0 && Liste::all()->where('tokenModif', '=', $token)->count() > 0){
@@ -112,6 +152,13 @@ class ListeControleur
         return $token;
     }
 
+    /**
+     * donne les informations sur la liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function donneInfoListe(Request $rq, Response $rs, $args): Response
     {
         $vue = new ListeVue($this->container);
@@ -124,6 +171,14 @@ class ListeControleur
         return $rs;
     }
 
+    /**
+     * supprime une liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     * @throws \Exception
+     */
     public function supprimerListe(Request $rq, Response $rs, $args): Response
     {
         $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
@@ -138,6 +193,13 @@ class ListeControleur
         return $rs->withRedirect($refMenu);
     }
 
+    /**
+     * utilise la vue pour modifie la liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function modificationListe(Request $rq, Response $rs, $args): Response
     {
         $vue = new ListeVue($this->container);
@@ -148,6 +210,13 @@ class ListeControleur
         return $rs;
     }
 
+    /**
+     * modifie la liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function modifierListe(Request $rq, Response $rs, $args): Response
     {
         $post = $rq->getParsedBody();
@@ -162,6 +231,13 @@ class ListeControleur
         return $rs->withRedirect($refListe);
     }
 
+    /**
+     * ajoute un commentaire a la liste
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function ajouterCommentaire(Request $rq, Response $rs, $args): Response
     {
         $post = $rq->getParsedBody();
