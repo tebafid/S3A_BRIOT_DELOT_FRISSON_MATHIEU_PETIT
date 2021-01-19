@@ -49,7 +49,7 @@ class UtilisateurControleur
         $login = filter_var($post['login'], FILTER_SANITIZE_STRING);
         $password = filter_var($post['password'], FILTER_SANITIZE_STRING);
 
-        if(Utilisateur::where('login', '=', $login)->count() == 0){
+        if(Utilisateur::all()->where('login', '=', $login)->count() == 0){
             $util = new Utilisateur();
             $util->nom = $nom;
             $util->prenom = $prenom;
@@ -93,8 +93,8 @@ class UtilisateurControleur
         $login = filter_var($post['login'], FILTER_SANITIZE_STRING);
         $password = filter_var($post['password'], FILTER_SANITIZE_STRING);
 
-        if(Utilisateur::where('login', '=', $login)->count() > 0){
-            $util = Utilisateur::where('login', '=', $login)->first();
+        if(Utilisateur::all()->where('login', '=', $login)->count() > 0){
+            $util = Utilisateur::all()->where('login', '=', $login)->first();
             if(password_verify($password, $util->password)){ // connecté
                 $_SESSION['iduser'] = $util->id;
 

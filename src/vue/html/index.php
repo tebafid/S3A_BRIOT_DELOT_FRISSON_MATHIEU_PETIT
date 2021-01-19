@@ -32,8 +32,6 @@ include ("body.php"); // contenu de la page
         box-sizing: border-box;
     }
 
-
-
     .button {
         width: 100%;
         padding: 12px;
@@ -124,8 +122,6 @@ include ("body.php"); // contenu de la page
         font-weight: bold;
         color: #1e90ff;
     }
-
-
 
     .menu {
         width: 75%;

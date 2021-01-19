@@ -93,13 +93,14 @@ END;
         $lienActuel = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $urlDePartage = str_replace($this->data->tokenModif , $this->data->token, $lienActuel);
         $html = <<<END
-<h1>Liste : {$this->data->titre}</h1>
-<h3>Description : {$this->data->description}</h3>
+<h1>{$this->data->titre}</h1>
+<h3>{$this->data->description}</h3>
+<h3>Expiration : {$this->data->expiration}</h3>
 <h3>Url de partage : {$urlDePartage}</h3>
 <table class='styled-table' style="border-collapse: collapse"><thead>
 <tr>
-    <th>Image</th>
-    <th>Item</th>
+    <th></th>
+    <th>Nom</th>
     <th>Description</th>
     <th>Url</th>
     <th>Prix</th>
@@ -108,12 +109,13 @@ END;
 </thead><tbody>
 END;
         $items = Item::all()->where('liste_id', '=', $this->data->no);
+        $racine = $this->container->router->pathFor('accueil');
         if (count($items) != 0) {
             foreach ($items as $item) {
                 if ($item->img != null && file_exists(dirname(__FILE__) . "/../../web/img/{$item->img}")) {
-                    $img = "../../web/img/{$item->img}";
+                    $img = $racine . "/../web/img/{$item->img}";
                 } else {
-                    $img = "../../web/img/base-img.png";
+                    $img = $racine . "/../web/img/base-img.png";
                 }
                 if ($item->reservation == 0) {
                     if(isset($_COOKIE['listes']) && isset($_COOKIE['listes'][$this->data->no])){
@@ -280,14 +282,15 @@ END;
         $lienActuel = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         $urlDePartage = str_replace($this->data->tokenModif , $this->data->token, $lienActuel);
 
-        $html = "<h1>Liste : {$this->data->titre}</h1>";
-        $html .= "<h3>Description : {$this->data->description}</h3>";
+        $html = "<h1>{$this->data->titre}</h1>";
+        $html .= "<h3>{$this->data->description}</h3>";
+        $html .= "<h3>Expiration : {$this->data->expiration}</h3>";
         $html .= "<h3>Url de partage : {$urlDePartage}</h3>";
         $html .= <<<END
 <table class='styled-table'><thead>
 <tr>
-    <th>Image</th>
-    <th>Item</th>
+    <th></th>
+    <th>Nom</th>
     <th>Description</th>
     <th>Url</th>
     <th>Prix</th>
@@ -297,15 +300,16 @@ END;
 </thead><tbody>
 END;
         $items = Item::all()->where('liste_id', '=', $this->data->no);
+        $racine = $this->container->router->pathFor('accueil');
         if (count($items) != 0) {
             foreach ($items as $item) {
                 $refModifItem = $this->container->router->pathFor('formModificationItem', ['tokenModif' => $this->data->tokenModif, 'id' => $item->id]);
                 $refSupprItem = $this->container->router->pathFor('supprimerItem', ['tokenModif' => $this->data->tokenModif, 'id' => $item->id]);
 
                 if($item->img != null && file_exists(dirname(__FILE__) . "/../../web/img/{$item->img}")) {
-                    $img = "../../web/img/{$item->img}";
+                    $img = $racine . "/../web/img/{$item->img}";
                 } else {
-                    $img = "../../web/img/base-img.png";
+                    $img = $racine . "/../web/img/base-img.png";
                 }
                 if ($item->reservation == 0) {
                     if(isset($_COOKIE['listes']) && isset($_COOKIE['listes'][$this->data->no])){
@@ -368,7 +372,7 @@ END;
             $refSupprListe = $this->container->router->pathFor('supprimerListe', ['tokenModif' => $this->data->tokenModif]);
 
             $html .= <<<END
-<div style="margin-bottom: 20px">
+<div style="margin-bottom: 20px;">
     <a class='button' href='$refAjoutItem'>Ajouter un item</a>
     <a class='button' href='$refModifListe'>Modifier la liste</a>
     <a class='button rouge' href='$refSupprListe'>Supprimer la liste</a>
