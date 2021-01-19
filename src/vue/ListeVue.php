@@ -26,7 +26,7 @@ class ListeVue extends MainVue
      * @return string
      */
     private function getHtmlListesPubliques(){
-        $html = '';
+        $html = '<h1>Listes publiques :</h1>';
         if(sizeof($this->data) > 0){
             $html .= <<<END
 <table class='styled-table' ><thead><tr>
@@ -165,22 +165,6 @@ END;
         }
         $html .= "</tbody></table>";
 
-        return $html;
-    }
-
-    /**
-     * affiche le menu des listes publiques
-     * @return string
-     */
-    private function getHtmlMenuListesPubliques(){
-        $refCreationListe = $this->container->router->pathFor('formCreationListe');
-        $html = <<<END
-<div class="menu">
-  <a class="active">Listes publiques</a>
-  <a href="">Listes expirées</a>
-  <a href="$refCreationListe">Créer une liste</a>
-</div>
-END;
         return $html;
     }
 
@@ -496,7 +480,7 @@ END;
     public function render(int $i) : String {
         switch ($i){
             case 0: // affichage listes publiques
-                MainVue::$content = $this->getHtmlMenuListesPubliques() . $this->getHtmlListesPubliques();
+                MainVue::$content = $this->getHtmlListesPubliques();
                 break;
             case 1: // affichage liste
                 MainVue::$content = $this->getHtmlListe() . $this->getHtmlAjoutCommentaire() . $this->getHtmlCommentaire();
