@@ -61,6 +61,9 @@ $app->post('/reservation/{token}/{id}', ItemControleur::class . ':reserver')->se
 $app->get('/formAjoutItem/{tokenModif}/{id}', ItemControleur::class . ':ajouterItem')->setName('formAjoutItem');
 $app->post('/ajoutItem/{tokenModif}/{id}', ItemControleur::class . ':ajoutItem')->setName('ajoutItem');
 
+$app->get('/formModificationItem/{tokenModif}/{id}', ItemControleur::class . ':modificationItem')->setName('formModificationItem');
+$app->post('/modificationItem/{tokenModif}/{id}', ItemControleur::class . ':modifierItem')->setName('modificationItem');
+
 $app->get('/supprimerItem/{tokenModif}/{id}', ItemControleur::class . ':supprimerItem')->setName('supprimerItem');
 
 

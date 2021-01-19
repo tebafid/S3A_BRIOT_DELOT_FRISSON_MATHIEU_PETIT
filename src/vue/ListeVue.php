@@ -110,7 +110,7 @@ END;
         $items = Item::all()->where('liste_id', '=', $this->data->no);
         if (count($items) != 0) {
             foreach ($items as $item) {
-                if (file_exists ( "../uploads/{$item->img}" )) {
+                if ($item->img != null && file_exists(dirname(__FILE__) . "/../../web/img/{$item->img}")) {
                     $img = "../../web/img/{$item->img}";
                 } else {
                     $img = "../../web/img/base-img.png";
@@ -315,10 +315,10 @@ END;
         $items = Item::all()->where('liste_id', '=', $this->data->no);
         if (count($items) != 0) {
             foreach ($items as $item) {
-                //$url_modif = $this->container->router->pathFor('modifitem', ['tokenModif' => $this -> tab['tokenModif'], 'id' => $item['id']] );
+                $refModifItem = $this->container->router->pathFor('formModificationItem', ['tokenModif' => $this->data->tokenModif, 'id' => $item->id]);
                 $refSupprItem = $this->container->router->pathFor('supprimerItem', ['tokenModif' => $this->data->tokenModif, 'id' => $item->id]);
 
-                if(file_exists("../uploads/{$item->img}")) {
+                if($item->img != null && file_exists(dirname(__FILE__) . "/../../web/img/{$item->img}")) {
                     $img = "../../web/img/{$item->img}";
                 } else {
                     $img = "../../web/img/base-img.png";
@@ -358,7 +358,7 @@ END;
 <td><div>{$item->tarif}</div></td>
 <td><div>{$reserv}</div></td>
 <td style="text-align: center">
-    <div style="display: inline-block"><a href=''><i class='fa fa-edit'></i></a></div>
+    <div style="display: inline-block"><a href='$refModifItem'><i class='fa fa-edit'></i></a></div>
     <div style="display: inline-block"><a href='$refSupprItem'><i class='fa fa-trash'></i></a></div>
 </td>
 </tr>

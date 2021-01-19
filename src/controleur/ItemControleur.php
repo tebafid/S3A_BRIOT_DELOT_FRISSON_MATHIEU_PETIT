@@ -52,12 +52,50 @@ class ItemControleur
         $prix = filter_var($post['prix'], FILTER_SANITIZE_STRING);
         $url = filter_var($post['url'], FILTER_SANITIZE_STRING);
 
+        if($_FILES["fileToUpload"]["name"] != ''){
+            // source : https://www.w3schools.com/php/php_file_upload.asp
+            $target_dir = dirname(__FILE__) . '/../../web/img/';
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if(!$check) {
+                echo "Ce fichier n'est pas une image.";
+                return $rs;
+            }
+
+// Check file size 10Mb
+            if ($_FILES["fileToUpload"]["size"] > 10000000) {
+                echo "Cette image est trop grosse.";
+                return $rs;
+            }
+
+// Allow certain file formats
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+                echo "Désolé, seulement les JPG, JPEG, PNG & GIF sont accepté.";
+                return $rs;
+            }
+
+            if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                echo "Sorry, there was an error uploading your file.";
+                return $rs;
+            }
+
+            $img = htmlspecialchars(basename($_FILES["fileToUpload"]["name"]));
+        }else{
+            $img = null;
+        }
+
         $item = new Item();
         $item->liste_id = $args['id'];
         $item->nom = $nom;
         $item->descr = $descr;
         $item->tarif = $prix;
         $item->url = $url;
+        $item->img = $img;
         $item->save();
 
         $refListe = $this->container->router->pathFor('liste', ['token' => $args['tokenModif']]);
@@ -136,17 +174,88 @@ class ItemControleur
     public function supprimerItem(Request $rq, Response $rs, $args): Response{
         $item = Item::all()->where('id', '=', $args['id'])->first();
 
-        if(Liste::all()->where('no', '=', $item->liste_id)->first()->id == Liste::all()->where('tokenModif', '=', $args['tokenModif']))
-            return $rs;
+        if(Liste::all()->where('no', '=', $item->liste_id)->first()->no != Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first()->no)
+            return $rs; // ne peut pas suppr un item sans le bon token de modif
 
         if($item->reserve == 1){
-            //$ref = $this->container->router->pathFor('itemreserver'); a finir
-            return $rs;
+            return $rs; // ne peut pas suppr un item reservé
         }else{
             $item->delete();
             $ref = $this->container->router->pathFor('liste', ['token' => $args['tokenModif']]);
         }
         return $rs->withRedirect($ref);
+    }
+
+    public function modificationItem(Request $rq, Response $rs, $args): Response{
+        $item = Item::all()->where('id', '=', $args['id'])->first();
+
+        if(Liste::all()->where('no', '=', $item->liste_id)->first()->no != Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first()->no)
+            return $rs; // ne peut pas modifier un item sans le bon token de modif
+
+        if($item->reserve == 1){
+            return $rs; // ne peut pas modifier un item reservé
+        }else{
+            $vue = new ItemVue($this->container);
+            $vue->setData($item);
+            $rs->getBody()->write($vue->render(3));
+        }
+        return $rs;
+    }
+
+    public function modifierItem(Request $rq, Response $rs, $args): Response{
+        $post = $rq->getParsedBody();
+        $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
+        $description = filter_var($post['descr'], FILTER_SANITIZE_STRING);
+        $prix = filter_var($post['prix'], FILTER_SANITIZE_STRING);
+        $url = filter_var($post['url'], FILTER_SANITIZE_STRING);
+
+        if($_FILES["fileToUpload"]["name"] != ''){
+            // source : https://www.w3schools.com/php/php_file_upload.asp
+            $target_dir = dirname(__FILE__) . '/../../web/img/';
+            $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+            $uploadOk = 1;
+            $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+            if(!$check) {
+                echo "Ce fichier n'est pas une image.";
+                return $rs;
+            }
+
+// Check file size 10Mb
+            if ($_FILES["fileToUpload"]["size"] > 10000000) {
+                echo "Cette image est trop grosse.";
+                return $rs;
+            }
+
+// Allow certain file formats
+            if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                && $imageFileType != "gif" ) {
+                echo "Désolé, seulement les JPG, JPEG, PNG & GIF sont accepté.";
+                return $rs;
+            }
+
+            if (!move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                echo "Sorry, there was an error uploading your file.";
+                return $rs;
+            }
+
+            $img = htmlspecialchars(basename($_FILES["fileToUpload"]["name"]));
+        }else{
+            $img = null;
+        }
+
+        $item = Item::all()->where('id', '=', $args['id'])->first();
+        $item->nom = $nom;
+        $item->descr = $description;
+        $item->url = $url;
+        $item->tarif = $prix;
+        $item->img = $img;
+        $item->save();
+
+        $refListe = $this->container->router->pathFor('liste', ['token' => $args['tokenModif']]);
+        return $rs->withRedirect($refListe);
     }
 
 }
