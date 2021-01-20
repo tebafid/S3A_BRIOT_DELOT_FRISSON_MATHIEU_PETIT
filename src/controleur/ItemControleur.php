@@ -186,6 +186,13 @@ class ItemControleur
         return $rs->withRedirect($ref);
     }
 
+    /**
+     * Permet d'afficher le formulaire de la modification d'item
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function modificationItem(Request $rq, Response $rs, $args): Response{
         $item = Item::all()->where('id', '=', $args['id'])->first();
 
@@ -202,6 +209,13 @@ class ItemControleur
         return $rs;
     }
 
+    /**
+     * Modifie l'item
+     * @param Request $rq
+     * @param Response $rs
+     * @param $args
+     * @return Response
+     */
     public function modifierItem(Request $rq, Response $rs, $args): Response{
         $post = $rq->getParsedBody();
         $nom = filter_var($post['nom'], FILTER_SANITIZE_STRING);
