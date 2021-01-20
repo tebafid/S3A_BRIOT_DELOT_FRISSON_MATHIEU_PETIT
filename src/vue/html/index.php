@@ -22,6 +22,63 @@ include ("body.php"); // contenu de la page
 </html>
 <style>
 
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #ececec;
+    }
+
+    .content {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        padding-top: 100px;
+        padding-bottom: 50px;
+        width: 85%;
+    }
+
+    .header {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+
+        overflow: hidden;
+        background-color: #272F3D;
+    }
+
+    .header a {
+        float: left;
+        color: lightgray;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        font-size: 20px;
+        line-height: 20px;
+    }
+
+    .header a.logo {
+        font-size: 30px;
+        font-weight: bold;
+    }
+
+    .header a:hover {
+        color: white;
+    }
+
+    .header a.active {
+        background-color: #ffcf0d;
+        color: #272F3D;
+    }
+
+    .header-right {
+        float: right;
+    }
+
     input[type=text], input[type=password], input[type=date] {
         width: 100%;
         padding: 12px 20px;
@@ -34,11 +91,11 @@ include ("body.php"); // contenu de la page
 
     .button {
         width: 100%;
-        padding: 12px;
+        padding: 10px;
         text-decoration: none;
-        font-size: 18px;
-        line-height: 25px;
-        border-radius: 4px;
+        font-size: 20px;
+        line-height: 20px;
+        border-radius: 3px;
         background-color: #3e4a60;
         color: white;
         margin: 8px 0;
@@ -49,78 +106,16 @@ include ("body.php"); // contenu de la page
         background-color: #b53434;
     }
 
-    .reservButton {
-        padding: 12px;
-        background-color: #ffcf0d;
-        text-decoration: none;
-        font-size: 18px;
-    }
-
-    .content {
-        margin-left: auto;
-        margin-right: auto;
-        padding: 20px;
-        padding-top: 100px;
-        padding-bottom: 50px;
-        width: 75%;
-    }
-
     .error {
         color: #ff1e1e;
         padding-bottom: 10px;
     }
 
-    .styled-table {
-        border-collapse: collapse;
-        margin: 25px auto;
-        font-size: 0.9em;
-        font-family: sans-serif;
-        min-width: 400px;
-    }
-
-    .styled-table thead tr {
-        background-color: #3E4A60;
-        color: #ffffff;
-        text-align: left;
-    }
-
-    .styled-table th {
-        padding: 12px 15px;
-    }
-
-    .styled-table td {
-        padding: 0;
-    }
-
-    .styled-table tbody tr {
-        border-bottom: 1px solid #dddddd;
-        background-color: #ffffff;
-    }
-
-    .styled-table tbody tr:nth-of-type(even) {
-        background-color: #f3f3f3;
-    }
-
-    .styled-table tbody tr:hover {
-        background-color: #e5e5e5;
-    }
-
-    .styled-table tbody tr:last-of-type {
-        border-bottom: 2px solid #3e4a60;
-    }
-
-    .styled-table tbody tr td div {
-        border: 10px solid transparent;
-    }
-
-    .styled-table tbody tr td a{
+    .reservButton {
+        padding: 12px;
+        background-color: #ffcf0d;
         text-decoration: none;
-        color: #3E4A60;
-    }
-
-    .styled-table tbody tr.active-row {
-        font-weight: bold;
-        color: #1e90ff;
+        font-size: 20px;
     }
 
     .menu {
@@ -147,52 +142,57 @@ include ("body.php"); // contenu de la page
         color: #e9cb83;
     }
 
-    * {
-        box-sizing: border-box;
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px auto;
+        font-size: 0.95em;
+        font-family: sans-serif;
+        min-width: 600px;
     }
 
-    body {
-        margin: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background-color: #ececec;
-    }
-
-    .header {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-
-        overflow: hidden;
-        background-color: #272F3D;
-    }
-
-    .header a {
-        float: left;
-        color: lightgray;
-        text-align: center;
-        padding: 20px;
-        text-decoration: none;
-        font-size: 18px;
-        line-height: 25px;
-    }
-
-    .header a.logo {
-        font-size: 25px;
-        font-weight: bold;
-    }
-
-    .header a:hover {
+    .styled-table thead tr {
+        background-color: #3E4A60;
         color: white;
+        text-align: left;
     }
 
-    .header a.active {
-        background-color: #ffcf0d;
-        color: #272F3D;
+    .styled-table th {
+        padding: 8px 10px;
     }
 
-    .header-right {
-        float: right;
+    .styled-table td {
+        padding: 0;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+        background-color: white;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) { /* 1 sur 2 */
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:hover {
+        background-color: #e5e5e5;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #3e4a60;
+    }
+
+    .styled-table tbody tr td div {
+        border: 10px solid transparent;
+    }
+
+    .styled-table tbody tr td a{
+        text-decoration: none;
+        color: #3E4A60;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #1e90ff;
     }
 
 </style>
