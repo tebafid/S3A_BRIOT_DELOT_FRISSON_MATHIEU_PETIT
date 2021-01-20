@@ -16,7 +16,7 @@ class MainVue
     private function getHtmlAccueil(){
         $refCreationListe = $this->container->router->pathFor('formCreationListe');
 
-        $html = "<h1> Bienvenue sur my MyWishList </h1>";
+        $html = "<h1> Bienvenue sur MyWishList </h1>";
         $html .= <<<END
 <div><h3>
 MyWishList.app est une application en ligne pour créer, partager et gérer des listes de cadeaux. <br/>
