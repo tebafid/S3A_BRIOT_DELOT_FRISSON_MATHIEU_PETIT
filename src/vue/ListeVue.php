@@ -288,10 +288,11 @@ END;
     <th>Url</th>
     <th>Prix</th>
     <th>Etat de reservation</th>
-    <th>Actions</th>
-</tr>
-</thead><tbody>
 END;
+        if($this->data->expiration >= date('Y-m-d')){
+            $html .= "<th>Actions</th>";
+        }
+$html .= "</tr></thead><tbody>";
         $items = Item::all()->where('liste_id', '=', $this->data->no);
         $racine = $this->container->router->pathFor('accueil');
         if (count($items) != 0) {
@@ -321,6 +322,7 @@ END;
                     if($this->data->expiration < date('Y-m-d')){
                         $p = Participant::all()->where('item_id', '=', $item->id)->first();
                         $reserv = "<pre> Réservé par " . $p->nom . "</pre>";
+                        $reserv .= "<pre>" .  $p->message . "</pre>";
                     }
                     else if(isset($_COOKIE['listes']) && $_COOKIE['listes'][$this->data->no]){
                         $reserv = "<p>Réservé</p>";
@@ -338,12 +340,16 @@ END;
 <td><div>{$item->url}</div></td>
 <td><div>{$item->tarif}</div></td>
 <td><div>{$reserv}</div></td>
+END;
+                if($this->data->expiration >= date('Y-m-d')){
+                    $html .= <<<END
 <td style="text-align: center">
     <div style="display: inline-block"><a href='$refModifItem'><i class='fa fa-edit'></i></a></div>
     <div style="display: inline-block"><a href='$refSupprItem'><i class='fa fa-trash'></i></a></div>
 </td>
-</tr>
 END;
+                }
+                $html .= '</tr>';
             }
         } else {
             $html .= <<<END
@@ -354,9 +360,11 @@ END;
 <td><div></div></td>
 <td><div></div></td>
 <td><div></div></td>
-<td><div></div></td>
-</tr>
 END;
+            if($this->data->expiration >= date('Y-m-d')){
+                $html .= '<td><div></div></td>';
+            }
+            $html .= '</tr>';
         }
         $html .= "</tbody></table>";
         if ($this->data->expiration >= date("Y-m-d")) {

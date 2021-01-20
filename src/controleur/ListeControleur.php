@@ -168,7 +168,7 @@ class ListeControleur
 
         if(isset($_SESSION['iduser'])){
             $user_id = $_SESSION['iduser'];
-            $url = $this->container->router->pathFor('liste', ['token' => $token]);
+            $url = $this->container->router->pathFor('liste', ['token' => $tokenModif]);
         }else{
             $user_id = null;
             $url = $this->container->router->pathFor('infoListe', ['tokenModif' => $tokenModif]);
@@ -226,7 +226,7 @@ class ListeControleur
     public function supprimerListe(Request $rq, Response $rs, $args): Response
     {
         $liste = Liste::all()->where('tokenModif', '=', $args['tokenModif'])->first();
-        $items = Item::all()->where('liste_id', '=', $liste->num);
+        $items = Item::all()->where('liste_id', '=', $liste->no);
         foreach ($items as $item){
             $part = Participant::all()->where('item_id', '=', $item->id)->first();
             if($part != null) $part->delete();
