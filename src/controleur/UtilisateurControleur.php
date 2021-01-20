@@ -123,16 +123,4 @@ class UtilisateurControleur
         return $rs->withRedirect($this->container->router->pathFor('accueil'));
     }
 
-    /**
-     * affiche le compte
-     * @param Request $rq
-     * @param Response $rs
-     * @param $args
-     * @return Response
-     */
-    public function afficherCompte(Request $rq, Response $rs, $args): Response
-    {
-
-    }
-
 }
