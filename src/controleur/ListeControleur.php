@@ -188,7 +188,7 @@ class ListeControleur
      * @return string
      * @throws \Exception
      */
-    private function creerToken(){
+    private function creerToken(){ // source : https://www.php.net/manual/fr/function.random-bytes.php
         $token = bin2hex(random_bytes(10));
         while(Liste::all()->where('token', '=', $token)->count() > 0 && Liste::all()->where('tokenModif', '=', $token)->count() > 0){
             $token = bin2hex(random_bytes(10));
