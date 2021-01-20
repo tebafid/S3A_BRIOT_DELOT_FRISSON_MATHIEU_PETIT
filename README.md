@@ -27,6 +27,14 @@ MyWishList.app est une application en ligne pour créer, partager et gérer des 
 ````
 - Voila myWishlist est pret à être utilisé
 
+## Connection sur webetu
+
+- Afin de tester le site vous pouvez vous connecter sur myWishlist avec les identifiants :
+```
+identifiant: test
+mot de passe: test
+```
+
 
 # Fonctionnalités développés
 
