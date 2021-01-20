@@ -214,25 +214,18 @@ END;
         $html = <<<FIN
 <h1>Créer une liste</h1>
 <form method="POST" action="$refNouvelleListe">
-<div>
-    <label>Titre :</label>
-    <input type="text" name="titre" required/>
-</div>
-<div>
-    <label>Description : </label>
-    <input type="text" name="description" required/>
-</div>
+<div class="form">
+    <input type="text" name="titre" placeholder="titre" required/>
+    <input type="text" name="description" placeholder="description" required/>
 <div>
     <label>Date d'expiration : </label>
-    <input type="date" name="date" value=$date min=$date required/>
+    <input type="date" name="date" value=$date min=$date style="width: 170px" required/>
 </div>
 <div>
     <label>Public ?</label>
     <input type='checkbox' name='public' value='yes'>
 </div>
-<div>
     <button class="button" type="submit">Enregistrer</button>
-</div>
 </form>	
 FIN;
         return $html;
@@ -373,7 +366,7 @@ END;
 
             $html .= <<<END
 <div style="margin-bottom: 20px;">
-    <a class='button' href='$refAjoutItem'>Ajouter un item</a>
+    <a class='button' href='$refAjoutItem'>Ajouter un objet</a>
     <a class='button' href='$refModifListe'>Modifier la liste</a>
     <a class='button rouge' href='$refSupprListe'>Supprimer la liste</a>
 </div>
@@ -403,26 +396,18 @@ END;
     <h1>Modification de la liste</h1>
 </div>
 <form method="POST" action="$refModif">
-<div>
-    <label>Titre :</label>
-    <input type="text" name="titre" value="{$this->data->titre}"/>
-</div>
-<div>
-    <label>Description :</label>
-    <input type="text" name="description" value="{$this->data->description}"/>
-</div>
-<div>
-    <label>Date d'expiration</label>
-    <input type="date" name="date" value="{$this->data->expiration}"/>
-</div>
-<div>
-    $check
-</div>
-<div>
+<div class="form">
+    <input type="text" name="titre" value="{$this->data->titre}" placeholder="titre"/>
+    <input type="text" name="description" value="{$this->data->description}" placeholder="description"/>
+    <div>
+        <label>Date d'expiration</label>
+        <input type="date" name="date" value="{$this->data->expiration}" style="width: 170px"/>
+    </div>
+    <div>
+        $check
+    </div>
     <button class="button" type="submit">Modifier liste</button>
-</div>
 </form>
-
 END;
         return $html;
     }

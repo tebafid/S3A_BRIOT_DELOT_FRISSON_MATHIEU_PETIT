@@ -30,6 +30,7 @@ include ("body.php"); // contenu de la page
         margin: 0;
         font-family: Arial, Helvetica, sans-serif;
         background-color: #ececec;
+        color : #29313e;
     }
 
     .content {
@@ -79,8 +80,17 @@ include ("body.php"); // contenu de la page
         float: right;
     }
 
+    .form{
+        text-align: center;
+    }
+
+    .form div{
+        text-align: left;
+        padding-left: 2.5%;
+    }
+
     input[type=text], input[type=password], input[type=date] {
-        width: 100%;
+        width: 95%;
         padding: 12px 20px;
         margin: 8px 0;
         display: inline-block;
@@ -90,7 +100,7 @@ include ("body.php"); // contenu de la page
     }
 
     .button {
-        width: 100%;
+        width: 95%;
         padding: 10px;
         text-decoration: none;
         font-size: 20px;
@@ -150,14 +160,11 @@ include ("body.php"); // contenu de la page
         min-width: 600px;
     }
 
-    .styled-table thead tr {
-        background-color: #3E4A60;
-        color: white;
-        text-align: left;
-    }
-
     .styled-table th {
         padding: 8px 10px;
+        color: white;
+        background-color: #3E4A60;
+        text-align: left;
     }
 
     .styled-table td {
@@ -165,12 +172,12 @@ include ("body.php"); // contenu de la page
     }
 
     .styled-table tbody tr {
-        border-bottom: 1px solid #dddddd;
+        border-bottom: 1px solid #cfcfd2;
         background-color: white;
     }
 
     .styled-table tbody tr:nth-of-type(even) { /* 1 sur 2 */
-        background-color: #f3f3f3;
+        background-color: #f5f5f6;
     }
 
     .styled-table tbody tr:hover {
@@ -178,7 +185,7 @@ include ("body.php"); // contenu de la page
     }
 
     .styled-table tbody tr:last-of-type {
-        border-bottom: 2px solid #3e4a60;
+        border-bottom: 4px solid #3e4a60;
     }
 
     .styled-table tbody tr td div {
@@ -187,12 +194,6 @@ include ("body.php"); // contenu de la page
 
     .styled-table tbody tr td a{
         text-decoration: none;
-        color: #3E4A60;
+        color: #1b2129;
     }
-
-    .styled-table tbody tr.active-row {
-        font-weight: bold;
-        color: #1e90ff;
-    }
-
 </style>
